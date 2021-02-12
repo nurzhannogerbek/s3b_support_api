@@ -1,0 +1,74 @@
+image:
+  name: python:3.8
+deploy: &deploy
+  - step:
+      deployment: develop
+      script:
+        - pipe: atlassian/aws-s3-deploy:0.4.5
+          variables:
+            AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+            AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+            AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+            S3_BUCKET: $S3_BUCKET
+            LOCAL_PATH: '$(pwd)'
+            EXTRA_ARGS: '--exclude=* --include=*.graphql --include=template.yaml'
+            DELETE_FLAG: 'true'
+            DEBUG: 'true'
+        - apt-get update && apt-get install -y python3-pip
+        - pip3 install -U awscli
+        - aws configure set default.region $AWS_DEFAULT_REGION
+        - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+        - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+        - export GRAPHQL_SCHEMA_FILE_NAME="schema$BITBUCKET_BUILD_NUMBER.graphql"
+        - aws s3 mv s3://$S3_BUCKET/schema.graphql s3://$S3_BUCKET/$GRAPHQL_SCHEMA_FILE_NAME
+        - export API_KEY_EXPIRES=`date +%s -d "365 day"` # The Linux command which returns the unix epoch timestamp format.
+        - export CLOUDFORMATION_TEMPLATE="https://$S3_BUCKET.s3.$AWS_DEFAULT_REGION.amazonaws.com/template.yaml"
+        - pipe: atlassian/aws-sam-deploy:0.5.2
+          variables:
+            AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+            AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+            AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+            STACK_NAME: $STACK_NAME
+            TEMPLATE: $CLOUDFORMATION_TEMPLATE
+            CAPABILITIES:
+              - CAPABILITY_IAM
+              - CAPABILITY_NAMED_IAM
+              - CAPABILITY_AUTO_EXPAND
+            WAIT: 'true'
+            WAIT_INTERVAL: 60
+            DEBUG: 'true'
+            COMMAND: 'deploy-only'
+            STACK_PARAMETERS: |
+              [
+                {
+                  "ParameterKey": "EnvironmentName",
+                  "ParameterValue": "${ENVIRONMENT_NAME}"
+                },
+                {
+                  "ParameterKey": "S3Bucket",
+                  "ParameterValue": "${S3_BUCKET}"
+                },
+                {
+                  "ParameterKey": "Auth0Domain",
+                  "ParameterValue": "${AUTH0_DOMAIN}"
+                },
+                {
+                  "ParameterKey": "Auth0ClientID",
+                  "ParameterValue": "${AUTH0_CLIENT_ID}"
+                },
+                {
+                  "ParameterKey": "GraphQLSchemaFileName",
+                  "ParameterValue": "${GRAPHQL_SCHEMA_FILE_NAME}"
+                },
+                {
+                  "ParameterKey": "ApiKeyExpires",
+                  "ParameterValue": "${API_KEY_EXPIRES}"
+                }
+              ]
+
+pipelines:
+  branches:
+    develop:
+      - <<: *deploy
+    master:
+      - <<: *deploy
