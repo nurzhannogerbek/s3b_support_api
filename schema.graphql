@@ -1,0 +1,347 @@
+input CreateCountryInput {
+    countryShortName: String!
+    countryOfficialName: String!
+    countryAlpha2Code: String!
+    countryAlpha3Code: String!
+    countryNumericCode: Int!
+    countryCodeTopLevelDomain: String!
+}
+
+type CreateCountryOutput {
+    countryId: String!
+    countryShortName: String!
+    countryOfficialName: String!
+    countryAlpha2Code: String!
+    countryAlpha3Code: String!
+    countryNumericCode: Int!
+    countryCodeTopLevelDomain: String!
+}
+
+input CreateCurrencyInput {
+    currencyOfficialName: String!
+    currencyAlphabeticCode: String!
+    currencyNumericCode: Int!
+}
+
+type CreateCurrencyOutput {
+    currencyId: String!
+    currencyOfficialName: String!
+    currencyAlphabeticCode: String!
+    currencyNumericCode: Int!
+}
+
+input CreateGenderInput {
+    genderTechnicalName: String!
+    genderPublicName: String!
+}
+
+type CreateGenderOutput {
+    genderId: String!
+    genderTechnicalName: String!
+    genderPublicName: String!
+}
+
+input CreateLocationInput {
+    countryId: String!
+    locationAlpha3Code: String!
+    locationName: String!
+    locationAdministrativeDivisionCode: String!
+    locationCoordinates: String!
+}
+
+type CreateLocationOutput {
+    country: GetCountryByIdOutput!
+    countryId: String!
+    locationId: String!
+    locationAlpha3Code: String!
+    locationName: String!
+    locationAdministrativeDivisionCode: String!
+    locationCoordinates: String!
+}
+
+input DeleteCountriesInput {
+    countriesIds: [String!]!
+}
+
+type DeleteCountriesOutput {
+    countriesIds: [String!]!
+    deleted: Boolean!
+}
+
+input DeleteCurrenciesInput {
+    currenciesIds: [String!]!
+}
+
+type DeleteCurrenciesOutput {
+    currenciesIds: [String!]!
+    deleted: Boolean!
+}
+
+input DeleteGenderInput {
+    gendersIds: [String!]!
+}
+
+type DeleteGenderOutput {
+    gendersIds: [String!]!
+    deleted: Boolean!
+}
+
+input DeleteLocationInput {
+    locationsIds: [String!]!
+}
+
+type DeleteLocationOutput {
+    locationsIds: [String!]!
+    deleted: Boolean!
+}
+
+type GetArchivedCountriesOutput {
+    archivedCountries: [GetCountryByIdOutput!]
+    pageInformation: PageInformation!
+}
+
+type GetArchivedCurrenciesOutput {
+    archivedCurrencies: [GetCurrencyByIdOutput!]
+    pageInformation: PageInformation!
+}
+
+type GetArchivedGendersOutput {
+    archivedGenders: [GetGenderByIdOutput!]
+    pageInformation: PageInformation!
+}
+
+type GetArchivedLocationsOutput {
+    archivedLocations: [GetLocationByIdOutput!]
+    pageInformation: PageInformation!
+}
+
+type GetCountriesOutput {
+    countries: [GetCountryByIdOutput!]
+    pageInformation: PageInformation!
+}
+
+type GetCountryByIdOutput {
+    countryId: String!
+    countryShortName: String!
+    countryOfficialName: String!
+    countryAlpha2Code: String!
+    countryAlpha3Code: String!
+    countryNumericCode: Int!
+    countryCodeTopLevelDomain: String!
+}
+
+type GetCurrenciesOutput {
+    currencies: [GetCurrencyByIdOutput!]
+    pageInformation: PageInformation!
+}
+
+type GetCurrencyByIdOutput {
+    currencyId: String!
+    currencyOfficialName: String!
+    currencyAlphabeticCode: String!
+    currencyNumericCode: Int!
+}
+
+type GetGenderByIdOutput {
+    genderId: String!
+    genderTechnicalName: String!
+    genderPublicName: String!
+}
+
+type GetGendersOutput {
+    genders: [GetGenderByIdOutput!]
+    pageInformation: PageInformation!
+}
+
+type GetLocationByIdOutput {
+    country: GetCountryByIdOutput!
+    countryId: String!
+    locationId: String!
+    locationAlpha3Code: String!
+    locationName: String!
+    locationAdministrativeDivisionCode: String!
+    locationCoordinates: String!
+}
+
+type GetLocationsOutput {
+    locations: [GetLocationByIdOutput!]
+    pageInformation: PageInformation!
+}
+
+type Mutation {
+    # Создать локацию
+    createLocation(input: CreateLocationInput!): CreateLocationOutput!
+    # Обновить информацию локациии
+    updateLocation(input: UpdateLocationInput!): UpdateLocationOutput!
+    # Удалить онду/несколько локацию(ий)
+    deleteLocations(input: DeleteLocationInput!): DeleteLocationOutput!
+    # Восстановить одну/несколько локацию(ий)
+    restoreDeletedLocations(input: RestoreDeletedLocationsInput!): RestoreDeletedLocationsOutput!
+    # Создать пол
+    craeateGender(input: CreateGenderInput!): CreateGenderOutput!
+    # Обновить информацию пола
+    updateGender(input: UpdateGenderInput!): UpdateGenderOutput!
+    # Удалить одну/несколько пол(ов)
+    deleteGenders(input: DeleteGenderInput!): DeleteGenderOutput!
+    # Восстановить один/несколько пол(ов)
+    restoreDeletedGenders(input: RestoreDeletedGendersInput!): RestoreDeletedGendersOutput!
+    # Создать валюту
+    createCurrency(input: CreateCurrencyInput!): CreateCurrencyOutput!
+    # Обновить информацию валюты
+    updateCurrency(input: UpdateCurrencyInput!): UpdateCurrencyOutput!
+    # Удалить одну/несколько валюту(ют)
+    deleteCurrencies(input: DeleteCurrenciesInput!): DeleteCurrenciesOutput!
+    # Восстановить одну/несколько валюту(ют)
+    restoreDeletedCurrencies(input: RestoreDeletedCurrenciesInput!): RestoreDeletedCurrenciesOutput!
+    # Создать страну
+    createCountry(input: CreateCountryInput!): CreateCountryOutput!
+    # Обновить информацию страны
+    updateCountry(input: UpdateCountryInput!): UpdateCountryOutput!
+    # Удалить одну/несколько страну(ан)
+    deleteCountries(input: DeleteCountriesInput!): DeleteCountriesOutput!
+    # Восстановить одну/несколько страну(ан)
+    restoreDeletedCountries(input: RestoreDeletedCountriesInput!): RestoreDeletedCountriesOutput!
+}
+
+type PageInformation {
+    currentPageNumber: Int!
+    itemsCountPerPage: Int!
+    totalItemsCount: Int!
+}
+
+type Query {
+    # Получить одну/несколько локацию(ий)
+    ## Включает в себя архивированные локации
+    getLocationById(locationId: String!): GetLocationByIdOutput!
+    # Получить список локаций
+    getLocations(itemsCountPerPage: Int!, currentPageNumber: Int!): GetLocationsOutput!
+    # Пполучить один/несколько пол(ов)
+    ## Включает в себя архивированные полы
+    getGenderById(genderId: String!): GetGenderByIdOutput!
+    # Получить список полов
+    getGenders(itemsCountPerPage: Int!, currentPageNumber: Int!): GetGendersOutput!
+    # Получить одну/несколько валюту(ют)
+    ## Включает в себя архивированные валюты
+    getCurrencyById(currencyId: String!): GetCurrencyByIdOutput!
+    # Получить список валют
+    getCurrencies(itemsCountPerPage: Int!, currentPageNumber: Int!): GetCurrenciesOutput!
+    # Получить одну/несколько страну(ан)
+    ## Включает в себя архивированные страны
+    getCountryById(countryId: String!): GetCountryByIdOutput!
+    # Получить список стран
+    getCountries(itemsCountPerPage: Int!, currentPageNumber: Int!): GetCountriesOutput!
+    # Получить список архивированных локаций
+    getArchivedLocations(itemsCountPerPage: Int!, currentPageNumber: Int!): GetArchivedLocationsOutput!
+    # Получиить список архивированных полов
+    getArchivedGenders(itemsCountPerPage: Int!, currentPageNumber: Int!): GetArchivedGendersOutput!
+    # Получить список архивированных валют
+    getArchivedCurrencies(itemsCountPerPage: Int!, currentPageNumber: Int!): GetArchivedCurrenciesOutput!
+    # Получить список архивированных стран
+    getArchivedCountries(itemsCountPerPage: Int!, currentPageNumber: Int!): GetArchivedCountriesOutput!
+}
+
+input RestoreDeletedCountriesInput {
+    countriesIds: [String!]!
+}
+
+type RestoreDeletedCountriesOutput {
+    countriesIds: [String!]!
+    restored: Boolean!
+}
+
+input RestoreDeletedCurrenciesInput {
+    currenciesIds: [String!]!
+}
+
+type RestoreDeletedCurrenciesOutput {
+    currenciesIds: [String!]!
+    restored: Boolean!
+}
+
+input RestoreDeletedGendersInput {
+    gendersIds: [String!]!
+}
+
+type RestoreDeletedGendersOutput {
+    gendersIds: [String!]!
+    restored: Boolean!
+}
+
+input RestoreDeletedLocationsInput {
+    locationsIds: [String!]!
+}
+
+type RestoreDeletedLocationsOutput {
+    locationsIds: [String!]!
+    restored: Boolean!
+}
+
+input UpdateCountryInput {
+    countryId: String!
+    countryShortName: String
+    countryOfficialName: String
+    countryAlpha2Code: String
+    countryAlpha3Code: String
+    countryNumericCode: Int
+    countryCodeTopLevelDomain: String
+}
+
+type UpdateCountryOutput {
+    countryId: String!
+    countryShortName: String!
+    countryOfficialName: String!
+    countryAlpha2Code: String!
+    countryAlpha3Code: String!
+    countryNumericCode: Int!
+    countryCodeTopLevelDomain: String!
+}
+
+input UpdateCurrencyInput {
+    currencyId: String!
+    currencyOfficialName: String
+    currencyAlphabeticCode: String
+    currencyNumericCode: Int
+}
+
+type UpdateCurrencyOutput {
+    currencyId: String!
+    currencyOfficialName: String!
+    currencyAlphabeticCode: String!
+    currencyNumericCode: Int!
+}
+
+input UpdateGenderInput {
+    genderId: String!
+    genderTechnicalName: String
+    genderPublicName: String
+}
+
+type UpdateGenderOutput {
+    genderId: String!
+    genderTechnicalName: String!
+    genderPublicName: String!
+}
+
+input UpdateLocationInput {
+    countryId: String
+    locationId: String!
+    locationAlpha3Code: String
+    locationName: String
+    locationAdministrativeDivisionCode: String
+    locationCoordinates: String
+}
+
+type UpdateLocationOutput {
+    country: GetCountryByIdOutput!
+    countryId: String!
+    locationId: String!
+    locationAlpha3Code: String!
+    locationName: String!
+    locationAdministrativeDivisionCode: String!
+    locationCoordinates: String!
+}
+
+schema {
+    query: Query
+    mutation: Mutation
+}

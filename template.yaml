@@ -1,0 +1,127 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Parameters:
+  EnvironmentName:
+    Type: String
+  ReferenceDataServiceStackName:
+    Type: String
+    Default: 3beepReferenceDataService
+  S3Bucket:
+    Type: String
+  Auth0Domain:
+    Type: String
+  Auth0ClientID:
+    Type: String
+  GraphQLSchemaFileName:
+    Type: String
+  ApiKeyExpires:
+    Type: Number
+Conditions:
+  IsProductionEnvironment:
+    'Fn::Equals':
+      - Ref: EnvironmentName
+      - Prod
+Resources:
+  CloudWatchLogsRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: CloudWatchLogsAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'logs:CreateLogStream'
+                  - 'logs:PutLogEvents'
+                Resource: '*'
+  GraphQLApi:
+    Type: 'AWS::AppSync::GraphQLApi'
+    Properties:
+      Name:
+        'Fn::Sub': '${EnvironmentName}3beepReferenceDataService'
+      AuthenticationType: OPENID_CONNECT
+      OpenIDConnectConfig:
+        Issuer:
+          'Fn::Sub': '${Auth0Domain}'
+        ClientId:
+          'Fn::Sub': '${Auth0ClientID}'
+      AdditionalAuthenticationProviders:
+        - AuthenticationType: API_KEY
+      LogConfig:
+        CloudWatchLogsRoleArn:
+          'Fn::GetAtt': CloudWatchLogsRole.Arn
+        ExcludeVerboseContent: false
+        FieldLogLevel:
+          'Fn::If':
+            - IsProductionEnvironment
+            - ERROR
+            - ALL
+      XrayEnabled: false
+  GraphQLSchema:
+    Type: 'AWS::AppSync::GraphQLSchema'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      DefinitionS3Location:
+        'Fn::Sub': 's3://${S3Bucket}/${GraphQLSchemaFileName}'
+  ApiKey:
+    Type: 'AWS::AppSync::ApiKey'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      Expires:
+        Ref: ApiKeyExpires
+
+  GetCountriesRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: GetCountriesFunctionAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'lambda:InvokeFunction'
+                Resource:
+                  'Fn::ImportValue':
+                    'Fn::Sub': >-
+                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetCountriesARN
+    GetCountriesDataSource:
+      Type: 'AWS::AppSync::DataSource'
+      Properties:
+        ApiId:
+          'Fn::GetAtt': GraphQLApi.ApiId
+        Name:
+          'Fn::Sub': '${EnvironmentName}GetCountries'
+        Type: AWS_LAMBDA
+        LambdaConfig:
+          LambdaFunctionArn:
+            'Fn::ImportValue':
+              'Fn::Sub': >-
+                ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetCountriesARN
+        ServiceRoleArn:
+          'Fn::GetAtt': GetCountriesRole.Arn
+    GetCountriesResolver:
+      Type: 'AWS::AppSync::Resolver'
+      Properties:
+        ApiId:
+          'Fn::GetAtt': GraphQLApi.ApiId
+        FieldName: getCountries
+        TypeName: Query
+        DataSourceName:
+          'Fn::GetAtt': GetCountriesDataSource.Name
