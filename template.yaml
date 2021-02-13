@@ -46,7 +46,7 @@ Resources:
     Type: 'AWS::AppSync::GraphQLApi'
     Properties:
       Name:
-        'Fn::Sub': '${EnvironmentName}3beepReferenceDataService'
+        'Fn::Sub': '${EnvironmentName}3beepSupportApi'
       AuthenticationType: OPENID_CONNECT
       OpenIDConnectConfig:
         Issuer:
@@ -101,27 +101,27 @@ Resources:
                   'Fn::ImportValue':
                     'Fn::Sub': >-
                       ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetCountriesARN
-    GetCountriesDataSource:
-      Type: 'AWS::AppSync::DataSource'
-      Properties:
-        ApiId:
-          'Fn::GetAtt': GraphQLApi.ApiId
-        Name:
-          'Fn::Sub': '${EnvironmentName}GetCountries'
-        Type: AWS_LAMBDA
-        LambdaConfig:
-          LambdaFunctionArn:
-            'Fn::ImportValue':
-              'Fn::Sub': >-
-                ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetCountriesARN
-        ServiceRoleArn:
-          'Fn::GetAtt': GetCountriesRole.Arn
-    GetCountriesResolver:
-      Type: 'AWS::AppSync::Resolver'
-      Properties:
-        ApiId:
-          'Fn::GetAtt': GraphQLApi.ApiId
-        FieldName: getCountries
-        TypeName: Query
-        DataSourceName:
-          'Fn::GetAtt': GetCountriesDataSource.Name
+  GetCountriesDataSource:
+    Type: 'AWS::AppSync::DataSource'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      Name:
+        'Fn::Sub': '${EnvironmentName}GetCountries'
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn:
+          'Fn::ImportValue':
+            'Fn::Sub': >-
+              ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetCountriesARN
+      ServiceRoleArn:
+        'Fn::GetAtt': GetCountriesRole.Arn
+  GetCountriesResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: getCountries
+      TypeName: Query
+      DataSourceName:
+        'Fn::GetAtt': GetCountriesDataSource.Name
