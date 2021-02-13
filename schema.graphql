@@ -115,12 +115,12 @@ type GetArchivedLocationsOutput {
     pageInformation: PageInformation!
 }
 
-type GetCountriesOutput {
+type GetCountriesOutput @aws_api_key {
     countries: [GetCountryByIdOutput!]
     pageInformation: PageInformation!
 }
 
-type GetCountryByIdOutput {
+type GetCountryByIdOutput @aws_api_key {
     countryId: String!
     countryShortName: String!
     countryOfficialName: String!
@@ -203,7 +203,7 @@ type Mutation {
     restoreDeletedCountries(input: RestoreDeletedCountriesInput!): RestoreDeletedCountriesOutput!
 }
 
-type PageInformation {
+type PageInformation @aws_api_key {
     currentPageNumber: Int!
     itemsCountPerPage: Int!
     totalItemsCount: Int!
@@ -230,6 +230,7 @@ type Query {
     getCountryById(countryId: String!): GetCountryByIdOutput!
     # Получить список стран
     getCountries(itemsCountPerPage: Int!, currentPageNumber: Int!): GetCountriesOutput!
+        @aws_api_key
     # Получить список архивированных локаций
     getArchivedLocations(itemsCountPerPage: Int!, currentPageNumber: Int!): GetArchivedLocationsOutput!
     # Получиить список архивированных полов
