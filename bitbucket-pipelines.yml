@@ -2,7 +2,6 @@ image:
   name: python:3.8
 deploy: &deploy
   - step:
-      deployment: develop
       script:
         - pipe: atlassian/aws-s3-deploy:0.4.5
           variables:
@@ -70,5 +69,7 @@ pipelines:
   branches:
     develop:
       - <<: *deploy
+        deployment: develop
     master:
       - <<: *deploy
+        deployment: master

@@ -80,6 +80,96 @@ Resources:
       Expires:
         Ref: ApiKeyExpires
 
+  CreateCountryRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: CreateCountryFunctionAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'lambda:InvokeFunction'
+                Resource:
+                  'Fn::ImportValue':
+                    'Fn::Sub': >-
+                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}CreateCountryARN
+  CreateCountryDataSource:
+    Type: 'AWS::AppSync::DataSource'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      Name:
+        'Fn::Sub': '${EnvironmentName}CreateCountry'
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn:
+          'Fn::ImportValue':
+            'Fn::Sub': >-
+              ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}CreateCountryARN
+      ServiceRoleArn:
+        'Fn::GetAtt': GetCountriesRole.Arn
+  CreateCountryResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: createCountry
+      TypeName: Mutation
+      DataSourceName:
+        'Fn::GetAtt': CreateCountryDataSource.Name
+  DeleteCountriesRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: DeleteCountriesFunctionAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'lambda:InvokeFunction'
+                Resource:
+                  'Fn::ImportValue':
+                    'Fn::Sub': >-
+                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}DeleteCountriesARN
+  DeleteCountriesDataSource:
+    Type: 'AWS::AppSync::DataSource'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      Name:
+        'Fn::Sub': '${EnvironmentName}DeleteCountries'
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn:
+          'Fn::ImportValue':
+            'Fn::Sub': >-
+              ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}DeleteCountriesARN
+      ServiceRoleArn:
+        'Fn::GetAtt': GetCountriesRole.Arn
+  DeleteCountriesResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: deleteCountries
+      TypeName: Mutation
+      DataSourceName:
+        'Fn::GetAtt': DeleteCountriesDataSource.Name
   GetCountriesRole:
     Type: 'AWS::IAM::Role'
     Properties:
@@ -125,3 +215,183 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetCountriesDataSource.Name
+  GetArchivedCountriesRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: GetArchivedCountriesFunctionAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'lambda:InvokeFunction'
+                Resource:
+                  'Fn::ImportValue':
+                    'Fn::Sub': >-
+                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetArchivedCountriesARN
+  GetArchivedCountriesDataSource:
+    Type: 'AWS::AppSync::DataSource'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      Name:
+        'Fn::Sub': '${EnvironmentName}GetArchivedCountries'
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn:
+          'Fn::ImportValue':
+            'Fn::Sub': >-
+              ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetArchivedCountriesARN
+      ServiceRoleArn:
+        'Fn::GetAtt': GetCountriesRole.Arn
+  GetArchivedCountriesResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: getCountries
+      TypeName: Query
+      DataSourceName:
+        'Fn::GetAtt': GetArchivedCountriesDataSource.Name
+  GetCountryRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: GetCountryFunctionAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'lambda:InvokeFunction'
+                Resource:
+                  'Fn::ImportValue':
+                    'Fn::Sub': >-
+                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetCountryARN
+  GetCountryDataSource:
+    Type: 'AWS::AppSync::DataSource'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      Name:
+        'Fn::Sub': '${EnvironmentName}GetCountry'
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn:
+          'Fn::ImportValue':
+            'Fn::Sub': >-
+              ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetCountryARN
+      ServiceRoleArn:
+        'Fn::GetAtt': GetCountriesRole.Arn
+  GetCountryResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: getCountryById
+      TypeName: Query
+      DataSourceName:
+        'Fn::GetAtt': GetCountryDataSource.Name
+  RestoreDeletedCountriesRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: RestoreDeletedCountriesFunctionAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'lambda:InvokeFunction'
+                Resource:
+                  'Fn::ImportValue':
+                    'Fn::Sub': >-
+                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}RestoreDeletedCountriesARN
+  RestoreDeletedCountriesDataSource:
+    Type: 'AWS::AppSync::DataSource'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      Name:
+        'Fn::Sub': '${EnvironmentName}RestoreDeletedCountries'
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn:
+          'Fn::ImportValue':
+            'Fn::Sub': >-
+              ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}RestoreDeletedCountriesARN
+      ServiceRoleArn:
+        'Fn::GetAtt': GetCountriesRole.Arn
+  RestoreDeletedCountriesResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: restoreDeletedCountries
+      TypeName: Mutation
+      DataSourceName:
+        'Fn::GetAtt': RestoreDeletedCountriesDataSource.Name
+  UpdateCountryRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: UpdateCountryFunctionAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'lambda:InvokeFunction'
+                Resource:
+                  'Fn::ImportValue':
+                    'Fn::Sub': >-
+                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}UpdateCountryARN
+  UpdateCountryDataSource:
+    Type: 'AWS::AppSync::DataSource'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      Name:
+        'Fn::Sub': '${EnvironmentName}UpdateCountry'
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn:
+          'Fn::ImportValue':
+            'Fn::Sub': >-
+              ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}UpdateCountryARN
+      ServiceRoleArn:
+        'Fn::GetAtt': GetCountriesRole.Arn
+  UpdateCountryResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: updateCountry
+      TypeName: Mutation
+      DataSourceName:
+        'Fn::GetAtt': UpdateCountryDataSource.Name
