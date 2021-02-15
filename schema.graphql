@@ -182,7 +182,7 @@ type Mutation {
     restoreDeletedLocations(input: RestoreDeletedLocationsInput!): RestoreDeletedLocationsOutput!
         @aws_api_key
     # Создать пол
-    craeateGender(input: CreateGenderInput!): CreateGenderOutput!
+    createGender(input: CreateGenderInput!): CreateGenderOutput!
         @aws_api_key
     # Обновить информацию пола
     updateGender(input: UpdateGenderInput!): UpdateGenderOutput!
