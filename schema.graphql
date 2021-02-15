@@ -7,7 +7,7 @@ input CreateCountryInput {
     countryCodeTopLevelDomain: String!
 }
 
-type CreateCountryOutput {
+type CreateCountryOutput @aws_api_key {
     countryId: String!
     countryShortName: String!
     countryOfficialName: String!
@@ -23,7 +23,7 @@ input CreateCurrencyInput {
     currencyNumericCode: Int!
 }
 
-type CreateCurrencyOutput {
+type CreateCurrencyOutput @aws_api_key {
     currencyId: String!
     currencyOfficialName: String!
     currencyAlphabeticCode: String!
@@ -35,7 +35,7 @@ input CreateGenderInput {
     genderPublicName: String!
 }
 
-type CreateGenderOutput {
+type CreateGenderOutput @aws_api_key {
     genderId: String!
     genderTechnicalName: String!
     genderPublicName: String!
@@ -49,7 +49,7 @@ input CreateLocationInput {
     locationCoordinates: String!
 }
 
-type CreateLocationOutput {
+type CreateLocationOutput @aws_api_key {
     country: GetCountryByIdOutput!
     countryId: String!
     locationId: String!
@@ -63,7 +63,7 @@ input DeleteCountriesInput {
     countriesIds: [String!]!
 }
 
-type DeleteCountriesOutput {
+type DeleteCountriesOutput @aws_api_key {
     countriesIds: [String!]!
     deleted: Boolean!
 }
@@ -72,7 +72,7 @@ input DeleteCurrenciesInput {
     currenciesIds: [String!]!
 }
 
-type DeleteCurrenciesOutput {
+type DeleteCurrenciesOutput @aws_api_key {
     currenciesIds: [String!]!
     deleted: Boolean!
 }
@@ -81,7 +81,7 @@ input DeleteGenderInput {
     gendersIds: [String!]!
 }
 
-type DeleteGenderOutput {
+type DeleteGenderOutput @aws_api_key {
     gendersIds: [String!]!
     deleted: Boolean!
 }
@@ -90,27 +90,27 @@ input DeleteLocationInput {
     locationsIds: [String!]!
 }
 
-type DeleteLocationOutput {
+type DeleteLocationOutput @aws_api_key {
     locationsIds: [String!]!
     deleted: Boolean!
 }
 
-type GetArchivedCountriesOutput {
+type GetArchivedCountriesOutput @aws_api_key {
     archivedCountries: [GetCountryByIdOutput!]
     pageInformation: PageInformation!
 }
 
-type GetArchivedCurrenciesOutput {
+type GetArchivedCurrenciesOutput @aws_api_key {
     archivedCurrencies: [GetCurrencyByIdOutput!]
     pageInformation: PageInformation!
 }
 
-type GetArchivedGendersOutput {
+type GetArchivedGendersOutput @aws_api_key {
     archivedGenders: [GetGenderByIdOutput!]
     pageInformation: PageInformation!
 }
 
-type GetArchivedLocationsOutput {
+type GetArchivedLocationsOutput @aws_api_key {
     archivedLocations: [GetLocationByIdOutput!]
     pageInformation: PageInformation!
 }
@@ -130,30 +130,30 @@ type GetCountryByIdOutput @aws_api_key {
     countryCodeTopLevelDomain: String!
 }
 
-type GetCurrenciesOutput {
+type GetCurrenciesOutput @aws_api_key {
     currencies: [GetCurrencyByIdOutput!]
     pageInformation: PageInformation!
 }
 
-type GetCurrencyByIdOutput {
+type GetCurrencyByIdOutput @aws_api_key {
     currencyId: String!
     currencyOfficialName: String!
     currencyAlphabeticCode: String!
     currencyNumericCode: Int!
 }
 
-type GetGenderByIdOutput {
+type GetGenderByIdOutput @aws_api_key {
     genderId: String!
     genderTechnicalName: String!
     genderPublicName: String!
 }
 
-type GetGendersOutput {
+type GetGendersOutput @aws_api_key {
     genders: [GetGenderByIdOutput!]
     pageInformation: PageInformation!
 }
 
-type GetLocationByIdOutput {
+type GetLocationByIdOutput @aws_api_key {
     country: GetCountryByIdOutput!
     countryId: String!
     locationId: String!
@@ -163,7 +163,7 @@ type GetLocationByIdOutput {
     locationCoordinates: String!
 }
 
-type GetLocationsOutput {
+type GetLocationsOutput @aws_api_key {
     locations: [GetLocationByIdOutput!]
     pageInformation: PageInformation!
 }
@@ -171,36 +171,52 @@ type GetLocationsOutput {
 type Mutation {
     # Создать локацию
     createLocation(input: CreateLocationInput!): CreateLocationOutput!
+        @aws_api_key
     # Обновить информацию локациии
     updateLocation(input: UpdateLocationInput!): UpdateLocationOutput!
+        @aws_api_key
     # Удалить онду/несколько локацию(ий)
     deleteLocations(input: DeleteLocationInput!): DeleteLocationOutput!
+        @aws_api_key
     # Восстановить одну/несколько локацию(ий)
     restoreDeletedLocations(input: RestoreDeletedLocationsInput!): RestoreDeletedLocationsOutput!
+        @aws_api_key
     # Создать пол
     craeateGender(input: CreateGenderInput!): CreateGenderOutput!
+        @aws_api_key
     # Обновить информацию пола
     updateGender(input: UpdateGenderInput!): UpdateGenderOutput!
+        @aws_api_key
     # Удалить одну/несколько пол(ов)
     deleteGenders(input: DeleteGenderInput!): DeleteGenderOutput!
+        @aws_api_key
     # Восстановить один/несколько пол(ов)
     restoreDeletedGenders(input: RestoreDeletedGendersInput!): RestoreDeletedGendersOutput!
+        @aws_api_key
     # Создать валюту
     createCurrency(input: CreateCurrencyInput!): CreateCurrencyOutput!
+        @aws_api_key
     # Обновить информацию валюты
     updateCurrency(input: UpdateCurrencyInput!): UpdateCurrencyOutput!
+        @aws_api_key
     # Удалить одну/несколько валюту(ют)
     deleteCurrencies(input: DeleteCurrenciesInput!): DeleteCurrenciesOutput!
+        @aws_api_key
     # Восстановить одну/несколько валюту(ют)
     restoreDeletedCurrencies(input: RestoreDeletedCurrenciesInput!): RestoreDeletedCurrenciesOutput!
+        @aws_api_key
     # Создать страну
     createCountry(input: CreateCountryInput!): CreateCountryOutput!
+        @aws_api_key
     # Обновить информацию страны
     updateCountry(input: UpdateCountryInput!): UpdateCountryOutput!
+        @aws_api_key
     # Удалить одну/несколько страну(ан)
     deleteCountries(input: DeleteCountriesInput!): DeleteCountriesOutput!
+        @aws_api_key
     # Восстановить одну/несколько страну(ан)
     restoreDeletedCountries(input: RestoreDeletedCountriesInput!): RestoreDeletedCountriesOutput!
+        @aws_api_key
 }
 
 type PageInformation @aws_api_key {
@@ -213,39 +229,50 @@ type Query {
     # Получить одну/несколько локацию(ий)
     ## Включает в себя архивированные локации
     getLocationById(locationId: String!): GetLocationByIdOutput!
+        @aws_api_key
     # Получить список локаций
     getLocations(itemsCountPerPage: Int!, currentPageNumber: Int!): GetLocationsOutput!
+        @aws_api_key
     # Пполучить один/несколько пол(ов)
     ## Включает в себя архивированные полы
     getGenderById(genderId: String!): GetGenderByIdOutput!
+        @aws_api_key
     # Получить список полов
     getGenders(itemsCountPerPage: Int!, currentPageNumber: Int!): GetGendersOutput!
+        @aws_api_key
     # Получить одну/несколько валюту(ют)
     ## Включает в себя архивированные валюты
     getCurrencyById(currencyId: String!): GetCurrencyByIdOutput!
+        @aws_api_key
     # Получить список валют
     getCurrencies(itemsCountPerPage: Int!, currentPageNumber: Int!): GetCurrenciesOutput!
+        @aws_api_key
     # Получить одну/несколько страну(ан)
     ## Включает в себя архивированные страны
     getCountryById(countryId: String!): GetCountryByIdOutput!
+        @aws_api_key
     # Получить список стран
     getCountries(itemsCountPerPage: Int!, currentPageNumber: Int!): GetCountriesOutput!
         @aws_api_key
     # Получить список архивированных локаций
     getArchivedLocations(itemsCountPerPage: Int!, currentPageNumber: Int!): GetArchivedLocationsOutput!
+        @aws_api_key
     # Получиить список архивированных полов
     getArchivedGenders(itemsCountPerPage: Int!, currentPageNumber: Int!): GetArchivedGendersOutput!
+        @aws_api_key
     # Получить список архивированных валют
     getArchivedCurrencies(itemsCountPerPage: Int!, currentPageNumber: Int!): GetArchivedCurrenciesOutput!
+        @aws_api_key
     # Получить список архивированных стран
     getArchivedCountries(itemsCountPerPage: Int!, currentPageNumber: Int!): GetArchivedCountriesOutput!
+        @aws_api_key
 }
 
 input RestoreDeletedCountriesInput {
     countriesIds: [String!]!
 }
 
-type RestoreDeletedCountriesOutput {
+type RestoreDeletedCountriesOutput @aws_api_key {
     countriesIds: [String!]!
     restored: Boolean!
 }
@@ -254,7 +281,7 @@ input RestoreDeletedCurrenciesInput {
     currenciesIds: [String!]!
 }
 
-type RestoreDeletedCurrenciesOutput {
+type RestoreDeletedCurrenciesOutput @aws_api_key {
     currenciesIds: [String!]!
     restored: Boolean!
 }
@@ -263,7 +290,7 @@ input RestoreDeletedGendersInput {
     gendersIds: [String!]!
 }
 
-type RestoreDeletedGendersOutput {
+type RestoreDeletedGendersOutput @aws_api_key {
     gendersIds: [String!]!
     restored: Boolean!
 }
@@ -272,7 +299,7 @@ input RestoreDeletedLocationsInput {
     locationsIds: [String!]!
 }
 
-type RestoreDeletedLocationsOutput {
+type RestoreDeletedLocationsOutput @aws_api_key {
     locationsIds: [String!]!
     restored: Boolean!
 }
@@ -287,7 +314,7 @@ input UpdateCountryInput {
     countryCodeTopLevelDomain: String
 }
 
-type UpdateCountryOutput {
+type UpdateCountryOutput @aws_api_key {
     countryId: String!
     countryShortName: String!
     countryOfficialName: String!
@@ -304,7 +331,7 @@ input UpdateCurrencyInput {
     currencyNumericCode: Int
 }
 
-type UpdateCurrencyOutput {
+type UpdateCurrencyOutput @aws_api_key {
     currencyId: String!
     currencyOfficialName: String!
     currencyAlphabeticCode: String!
@@ -317,7 +344,7 @@ input UpdateGenderInput {
     genderPublicName: String
 }
 
-type UpdateGenderOutput {
+type UpdateGenderOutput @aws_api_key {
     genderId: String!
     genderTechnicalName: String!
     genderPublicName: String!
@@ -332,7 +359,7 @@ input UpdateLocationInput {
     locationCoordinates: String
 }
 
-type UpdateLocationOutput {
+type UpdateLocationOutput @aws_api_key {
     country: GetCountryByIdOutput!
     countryId: String!
     locationId: String!
