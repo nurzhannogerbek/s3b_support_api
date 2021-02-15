@@ -256,7 +256,7 @@ Resources:
     Properties:
       ApiId:
         'Fn::GetAtt': GraphQLApi.ApiId
-      FieldName: getCountries
+      FieldName: getArchivedCountries
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetArchivedCountriesDataSource.Name
