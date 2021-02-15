@@ -385,7 +385,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}UpdateCountryARN
       ServiceRoleArn:
-        'Fn::GetAtt': UpdataCountryRole.Arn
+        'Fn::GetAtt': UpdateCountryRole.Arn
   UpdateCountryResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
