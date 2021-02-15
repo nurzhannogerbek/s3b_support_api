@@ -115,7 +115,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}CreateCountryARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetCountriesRole.Arn
+        'Fn::GetAtt': CreateCountryRole.Arn
   CreateCountryResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -160,7 +160,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}DeleteCountriesARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetCountriesRole.Arn
+        'Fn::GetAtt': DeleteCountriesRole.Arn
   DeleteCountriesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -250,7 +250,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetArchivedCountriesARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetCountriesRole.Arn
+        'Fn::GetAtt': GetArchivedCountriesRole.Arn
   GetArchivedCountriesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -295,7 +295,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetCountryARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetCountriesRole.Arn
+        'Fn::GetAtt': GetCountryRole.Arn
   GetCountryResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -340,7 +340,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}RestoreDeletedCountriesARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetCountriesRole.Arn
+        'Fn::GetAtt': RestoreDeletedCountriesRole.Arn
   RestoreDeletedCountriesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -385,7 +385,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}UpdateCountryARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetCountriesRole.Arn
+        'Fn::GetAtt': UpdataCountryRole.Arn
   UpdateCountryResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
