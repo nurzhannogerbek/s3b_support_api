@@ -1208,6 +1208,51 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetArchivedLocationsDataSource.Name
+  GetCountryLocationsRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: GetCountryLocationsFunctionAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'lambda:InvokeFunction'
+                Resource:
+                  'Fn::ImportValue':
+                    'Fn::Sub': >-
+                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetCountryLocationsARN
+    GetCountryLocationsDataSource:
+      Type: 'AWS::AppSync::DataSource'
+      Properties:
+        ApiId:
+          'Fn::GetAtt': GraphQLApi.ApiId
+        Name:
+          'Fn::Sub': '${EnvironmentName}GetCountryLocations'
+        Type: AWS_LAMBDA
+        LambdaConfig:
+          LambdaFunctionArn:
+            'Fn::ImportValue':
+              'Fn::Sub': >-
+                ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetCountryLocationsARN
+        ServiceRoleArn:
+          'Fn::GetAtt': GetCountryLocationsRole.Arn
+    GetCountryLocationsResolver:
+      Type: 'AWS::AppSync::Resolver'
+      Properties:
+        ApiId:
+          'Fn::GetAtt': GraphQLApi.ApiId
+        FieldName: getLocationsByCountryId
+        TypeName: Query
+        DataSourceName:
+          'Fn::GetAtt': GetCountryLocationsDataSource.Name
   GetLocationRole:
     Type: 'AWS::IAM::Role'
     Properties:
@@ -1253,7 +1298,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetLocationDataSource.Name
-
   GetLocationCountryRole:
     Type: 'AWS::IAM::Role'
     Properties:
