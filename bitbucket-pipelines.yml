@@ -2,6 +2,8 @@ definitions:
   steps:
     - step: &deploy
         image: python:3.8
+        caches:
+          - pip
         script:
           - pipe: atlassian/aws-s3-deploy:0.4.5
             variables:
@@ -13,8 +15,7 @@ definitions:
               EXTRA_ARGS: '--exclude=* --include=*.graphql --include=template.yaml'
               DELETE_FLAG: 'true'
               DEBUG: 'true'
-          - apt-get update && apt-get install -y python3-pip
-          - pip3 install -U awscli
+          - pip3 install -U awscli==1.19.8
           - aws configure set default.region $AWS_DEFAULT_REGION
           - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
           - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
