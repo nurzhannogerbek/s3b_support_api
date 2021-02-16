@@ -51,7 +51,6 @@ input CreateLocationInput {
 
 type CreateLocationOutput @aws_api_key {
     country: GetCountryByIdOutput!
-    countryId: String!
     locationId: String!
     locationAlpha3Code: String!
     locationName: String!
@@ -155,7 +154,6 @@ type GetGendersOutput @aws_api_key {
 
 type GetLocationByIdOutput @aws_api_key {
     country: GetCountryByIdOutput!
-    countryId: String!
     locationId: String!
     locationAlpha3Code: String!
     locationName: String!
@@ -166,6 +164,11 @@ type GetLocationByIdOutput @aws_api_key {
 type GetLocationsOutput @aws_api_key {
     locations: [GetLocationByIdOutput!]
     pageInformation: PageInformation!
+}
+
+type GetLocationsByCountryIdOutput @aws_api_key {
+    country: GetCountryByIdOutput!
+    locationsByCountryId: GetLocationsOutput!
 }
 
 type Mutation {
@@ -226,28 +229,31 @@ type PageInformation @aws_api_key {
 }
 
 type Query {
-    # Получить одну/несколько локацию(ий)
+    # Получить локацию по Id
     ## Включает в себя архивированные локации
     getLocationById(locationId: String!): GetLocationByIdOutput!
         @aws_api_key
     # Получить список локаций
     getLocations(itemsCountPerPage: Int!, currentPageNumber: Int!): GetLocationsOutput!
         @aws_api_key
-    # Пполучить один/несколько пол(ов)
+    # Получить список локаций страны
+    getLocationsByCountryId(countryId: String!, itemsCountPerPage: Int!, currentPageNumber: Int!): GetLocationsByCountryIdOutput!
+        @aws_api_key
+    # Пполучить пол по Id
     ## Включает в себя архивированные полы
     getGenderById(genderId: String!): GetGenderByIdOutput!
         @aws_api_key
     # Получить список полов
     getGenders(itemsCountPerPage: Int!, currentPageNumber: Int!): GetGendersOutput!
         @aws_api_key
-    # Получить одну/несколько валюту(ют)
+    # Получить валюту по Id
     ## Включает в себя архивированные валюты
     getCurrencyById(currencyId: String!): GetCurrencyByIdOutput!
         @aws_api_key
     # Получить список валют
     getCurrencies(itemsCountPerPage: Int!, currentPageNumber: Int!): GetCurrenciesOutput!
         @aws_api_key
-    # Получить одну/несколько страну(ан)
+    # Получить страну по Id
     ## Включает в себя архивированные страны
     getCountryById(countryId: String!): GetCountryByIdOutput!
         @aws_api_key
@@ -361,7 +367,6 @@ input UpdateLocationInput {
 
 type UpdateLocationOutput @aws_api_key {
     country: GetCountryByIdOutput!
-    countryId: String!
     locationId: String!
     locationAlpha3Code: String!
     locationName: String!
