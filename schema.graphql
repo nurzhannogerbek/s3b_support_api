@@ -230,14 +230,14 @@ type PageInformation @aws_api_key {
 
 type GetTimezonesOutput @aws_api_key {
     timezoneId: String!
-    timezoneCountryAlpha2Code: String!
+    countryAlpha2Code: String!
     timezoneName: String!
     utcOffset: String!
 }
 
 type Query {
     # Получить список чвсовых поясов зон страны
-    getTimezones(locationCountryAlpha2Code: String!): [GetTimezonesOutput!]!
+    getTimezones(countryAlpha2Code: String!): [GetTimezonesOutput!]!
         @aws_api_key
     # Получить список чвсовых поясов зон страны
     searchTimezones(search: String!): [GetTimezonesOutput!]!
