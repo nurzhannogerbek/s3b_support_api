@@ -232,7 +232,7 @@ type GetTimezonesOutput @aws_api_key {
     timezoneId: String!
     timezoneCountryAlpha2Code: String!
     timezoneName: String!
-    timezone: String!
+    utcOffset: String!
 }
 
 type Query {

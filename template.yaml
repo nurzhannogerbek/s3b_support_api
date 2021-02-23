@@ -1433,3 +1433,94 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': UpdateLocationDataSource.Name
+
+  GetTimezonesRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: GetTimezonesFunctionAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'lambda:InvokeFunction'
+                Resource:
+                  'Fn::ImportValue':
+                    'Fn::Sub': >-
+                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetTimezonesARN
+  GetTimezonesDataSource:
+    Type: 'AWS::AppSync::DataSource'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      Name:
+        'Fn::Sub': '${EnvironmentName}GetTimezones'
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn:
+          'Fn::ImportValue':
+            'Fn::Sub': >-
+              ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetTimezonesARN
+      ServiceRoleArn:
+        'Fn::GetAtt': GetTimezonesRole.Arn
+  GetTimezonesResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: getTimezones
+      TypeName: Query
+      DataSourceName:
+        'Fn::GetAtt': GetTimezonesDataSource.Name
+  SearchTimezonesRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: SearchTimezonesFunctionAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'lambda:InvokeFunction'
+                Resource:
+                  'Fn::ImportValue':
+                    'Fn::Sub': >-
+                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}SearchTimezonesARN
+  SearchTimezonesDataSource:
+    Type: 'AWS::AppSync::DataSource'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      Name:
+        'Fn::Sub': '${EnvironmentName}SearchTimezones'
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn:
+          'Fn::ImportValue':
+            'Fn::Sub': >-
+              ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}SearchTimezonesARN
+      ServiceRoleArn:
+        'Fn::GetAtt': SearchTimezonesRole.Arn
+  SearchTimezonesResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: searchTimezones
+      TypeName: Query
+      DataSourceName:
+        'Fn::GetAtt': SearchTimezonesDataSource.Name
