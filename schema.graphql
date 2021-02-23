@@ -237,10 +237,10 @@ type GetTimezonesOutput @aws_api_key {
 
 type Query {
     # Получить список чвсовых поясов зон страны
-    getTimezones(countryAlpha2Code: String!): [GetTimezonesOutput!]
+    getTimezones(locationCountryAlpha2Code: String!): [GetTimezonesOutput!]!
         @aws_api_key
     # Получить список чвсовых поясов зон страны
-    searchTimezones(search: String!): [GetTimezonesOutput!]
+    searchTimezones(search: String!): [GetTimezonesOutput!]!
         @aws_api_key
     # Получить локацию по Id
     ## Включает в себя архивированные локации
