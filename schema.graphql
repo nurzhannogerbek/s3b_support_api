@@ -172,52 +172,52 @@ type GetLocationsByCountryIdOutput @aws_api_key {
 }
 
 type Mutation {
-    # Создать локацию
+    # Создать локацию.
     createLocation(input: CreateLocationInput!): CreateLocationOutput!
         @aws_api_key
-    # Обновить информацию локациии
+    # Обновить информацию локации.
     updateLocation(input: UpdateLocationInput!): UpdateLocationOutput!
         @aws_api_key
-    # Удалить онду/несколько локацию(ий)
+    # Удалить одну/несколько локацию(ий).
     deleteLocations(input: DeleteLocationInput!): DeleteLocationOutput!
         @aws_api_key
-    # Восстановить одну/несколько локацию(ий)
+    # Восстановить одну/несколько локацию(ий).
     restoreDeletedLocations(input: RestoreDeletedLocationsInput!): RestoreDeletedLocationsOutput!
         @aws_api_key
-    # Создать пол
+    # Создать пол.
     createGender(input: CreateGenderInput!): CreateGenderOutput!
         @aws_api_key
-    # Обновить информацию пола
+    # Обновить информацию пола.
     updateGender(input: UpdateGenderInput!): UpdateGenderOutput!
         @aws_api_key
-    # Удалить одну/несколько пол(ов)
+    # Удалить один/несколько пол(ов).
     deleteGenders(input: DeleteGenderInput!): DeleteGenderOutput!
         @aws_api_key
-    # Восстановить один/несколько пол(ов)
+    # Восстановить один/несколько пол(ов).
     restoreDeletedGenders(input: RestoreDeletedGendersInput!): RestoreDeletedGendersOutput!
         @aws_api_key
-    # Создать валюту
+    # Создать валюту.
     createCurrency(input: CreateCurrencyInput!): CreateCurrencyOutput!
         @aws_api_key
-    # Обновить информацию валюты
+    # Обновить информацию валюты.
     updateCurrency(input: UpdateCurrencyInput!): UpdateCurrencyOutput!
         @aws_api_key
-    # Удалить одну/несколько валюту(ют)
+    # Удалить одну/несколько валюту(ют).
     deleteCurrencies(input: DeleteCurrenciesInput!): DeleteCurrenciesOutput!
         @aws_api_key
-    # Восстановить одну/несколько валюту(ют)
+    # Восстановить одну/несколько валюту(ют).
     restoreDeletedCurrencies(input: RestoreDeletedCurrenciesInput!): RestoreDeletedCurrenciesOutput!
         @aws_api_key
-    # Создать страну
+    # Создать страну.
     createCountry(input: CreateCountryInput!): CreateCountryOutput!
         @aws_api_key
-    # Обновить информацию страны
+    # Обновить информацию страны.
     updateCountry(input: UpdateCountryInput!): UpdateCountryOutput!
         @aws_api_key
-    # Удалить одну/несколько страну(ан)
+    # Удалить одну/несколько страну(ан).
     deleteCountries(input: DeleteCountriesInput!): DeleteCountriesOutput!
         @aws_api_key
-    # Восстановить одну/несколько страну(ан)
+    # Восстановить одну/несколько страну(ан).
     restoreDeletedCountries(input: RestoreDeletedCountriesInput!): RestoreDeletedCountriesOutput!
         @aws_api_key
 }
@@ -236,53 +236,49 @@ type GetTimezonesOutput @aws_api_key {
 }
 
 type Query {
-    # Получить список чвсовых поясов зон страны
+    # Получить список часовых поясов зон страны.
     getTimezones(countryAlpha2Code: String!): [GetTimezonesOutput!]!
         @aws_api_key
-    # Получить список чвсовых поясов зон страны
+    # Получить список часовых поясов зон страны.
     searchTimezones(search: String!): [GetTimezonesOutput!]!
         @aws_api_key
-    # Получить локацию по Id
-    ## Включает в себя архивированные локации
+    # Получить локацию по id. Включает в себя архивированные локации.
     getLocationById(locationId: String!): GetLocationByIdOutput!
         @aws_api_key
-    # Получить список локаций
+    # Получить список локаций.
     getLocations(itemsCountPerPage: Int!, currentPageNumber: Int!): GetLocationsOutput!
         @aws_api_key
-    # Получить список локаций страны
+    # Получить список локаций страны.
     getLocationsByCountryId(countryId: String!, itemsCountPerPage: Int!, currentPageNumber: Int!): GetLocationsByCountryIdOutput!
         @aws_api_key
-    # Пполучить пол по Id
-    ## Включает в себя архивированные полы
+    # Получить пол по id. Включает в себя архивированные полы.
     getGenderById(genderId: String!): GetGenderByIdOutput!
         @aws_api_key
-    # Получить список полов
+    # Получить список полов.
     getGenders(itemsCountPerPage: Int!, currentPageNumber: Int!): GetGendersOutput!
         @aws_api_key
-    # Получить валюту по Id
-    ## Включает в себя архивированные валюты
+    # Получить валюту по id. Включает в себя архивированные валюты.
     getCurrencyById(currencyId: String!): GetCurrencyByIdOutput!
         @aws_api_key
-    # Получить список валют
+    # Получить список валют.
     getCurrencies(itemsCountPerPage: Int!, currentPageNumber: Int!): GetCurrenciesOutput!
         @aws_api_key
-    # Получить страну по Id
-    ## Включает в себя архивированные страны
+    # Получить страну по id. Включает в себя архивированные страны.
     getCountryById(countryId: String!): GetCountryByIdOutput!
         @aws_api_key
-    # Получить список стран
+    # Получить список стран.
     getCountries(itemsCountPerPage: Int!, currentPageNumber: Int!): GetCountriesOutput!
         @aws_api_key
-    # Получить список архивированных локаций
+    # Получить список архивированных локаций.
     getArchivedLocations(itemsCountPerPage: Int!, currentPageNumber: Int!): GetArchivedLocationsOutput!
         @aws_api_key
-    # Получиить список архивированных полов
+    # Получиить список архивированных полов.
     getArchivedGenders(itemsCountPerPage: Int!, currentPageNumber: Int!): GetArchivedGendersOutput!
         @aws_api_key
-    # Получить список архивированных валют
+    # Получить список архивированных валют.
     getArchivedCurrencies(itemsCountPerPage: Int!, currentPageNumber: Int!): GetArchivedCurrenciesOutput!
         @aws_api_key
-    # Получить список архивированных стран
+    # Получить список архивированных стран.
     getArchivedCountries(itemsCountPerPage: Int!, currentPageNumber: Int!): GetArchivedCountriesOutput!
         @aws_api_key
 }
