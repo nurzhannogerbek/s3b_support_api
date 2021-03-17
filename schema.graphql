@@ -228,7 +228,7 @@ type PageInformation @aws_api_key {
     totalItemsCount: Int!
 }
 
-type GetTimezonesOutput @aws_api_key {
+type GetTimezoneByIdOutput @aws_api_key {
     timezoneId: String!
     countryAlpha2Code: String!
     timezoneName: String!
@@ -236,11 +236,14 @@ type GetTimezonesOutput @aws_api_key {
 }
 
 type Query {
-    # Получить список часовых поясов зон страны.
-    getTimezones(countryAlpha2Code: String!): [GetTimezonesOutput!]!
+    # Получить временную зону по id. Включает в себя архивированные временые зоны.
+    getTimezoneById(timezoneId: String!): GetTimezoneByIdOutput!
         @aws_api_key
     # Получить список часовых поясов зон страны.
-    searchTimezones(search: String!): [GetTimezonesOutput!]!
+    getTimezones(countryAlpha2Code: String!): [GetTimezoneByIdOutput!]!
+        @aws_api_key
+    # Получить список часовых поясов зон страны.
+    searchTimezones(search: String!): [GetTimezoneByIdOutput!]!
         @aws_api_key
     # Получить локацию по id. Включает в себя архивированные локации.
     getLocationById(locationId: String!): GetLocationByIdOutput!

@@ -1434,6 +1434,51 @@ Resources:
       DataSourceName:
         'Fn::GetAtt': UpdateLocationDataSource.Name
 
+  GetTimezoneByIdRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: GetTimezoneByIdFunctionAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'lambda:InvokeFunction'
+                Resource:
+                  'Fn::ImportValue':
+                    'Fn::Sub': >-
+                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetTimezoneByIdARN
+  GetTimezoneByIdDataSource:
+    Type: 'AWS::AppSync::DataSource'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      Name:
+        'Fn::Sub': '${EnvironmentName}GetTimezoneById'
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn:
+          'Fn::ImportValue':
+            'Fn::Sub': >-
+              ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetTimezoneByIdARN
+      ServiceRoleArn:
+        'Fn::GetAtt': GetTimezoneByIdRole.Arn
+  GetTimezoneByIdResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: getTimezoneById
+      TypeName: Query
+      DataSourceName:
+        'Fn::GetAtt': GetTimezoneByIdDataSource.Name
   GetTimezonesRole:
     Type: 'AWS::IAM::Role'
     Properties:
