@@ -1614,7 +1614,7 @@ Resources:
       FieldName: createOrganizationSettings
       TypeName: Mutation
       DataSourceName:
-        'Fn::GetAtt': CreateOrganozationSettingsDataSource.Name
+        'Fn::GetAtt': CreateOrganizationSettingsDataSource.Name
   CreateOrganizationSettingsCountryByIdResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
