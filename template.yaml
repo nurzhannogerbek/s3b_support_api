@@ -6,6 +6,9 @@ Parameters:
   ReferenceDataServiceStackName:
     Type: String
     Default: 3beepReferenceDataService
+  SettingsServiceStackName:
+    Type: String
+    Default: 3beepSettingsDataService
   S3Bucket:
     Type: String
   Auth0Domain:
@@ -1590,7 +1593,7 @@ Resources:
                 Resource:
                   'Fn::ImportValue':
                     'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}CreateOrganizationSettingsARN
+                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}CreateOrganizationSettingsARN
   CreateOrganizationSettingsDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -1603,7 +1606,7 @@ Resources:
         LambdaFunctionArn:
           'Fn::ImportValue':
             'Fn::Sub': >-
-              ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}CreateOrganizationSettingsARN
+              ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}CreateOrganizationSettingsARN
       ServiceRoleArn:
         'Fn::GetAtt': CreateOrganizationSettingsRole.Arn
   CreateOrganizationSettingsResolver:
@@ -1665,7 +1668,7 @@ Resources:
                 Resource:
                   'Fn::ImportValue':
                     'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}DeleteOrganizationSettingsARN
+                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}DeleteOrganizationSettingsARN
   DeleteOrganizationSettingsDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -1678,7 +1681,7 @@ Resources:
         LambdaFunctionArn:
           'Fn::ImportValue':
             'Fn::Sub': >-
-              ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}DeleteOrganizationSettingsARN
+              ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}DeleteOrganizationSettingsARN
       ServiceRoleArn:
         'Fn::GetAtt': DeleteOrganizationSettingsRole.Arn
   DeleteOrganizationSettingsResolver:
@@ -1710,7 +1713,7 @@ Resources:
                 Resource:
                   'Fn::ImportValue':
                     'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetOrganizationSettingsARN
+                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetOrganizationSettingsARN
   GetOrganizationSettingsDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -1723,7 +1726,7 @@ Resources:
         LambdaFunctionArn:
           'Fn::ImportValue':
             'Fn::Sub': >-
-              ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetOrganizationSettingsARN
+              ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetOrganizationSettingsARN
       ServiceRoleArn:
         'Fn::GetAtt': GetOrganizationSettingsRole.Arn
   GetOrganizationSettingsResolver:
@@ -1785,7 +1788,7 @@ Resources:
                 Resource:
                   'Fn::ImportValue':
                     'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}UpdateOrganizationSettingsARN
+                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}UpdateOrganizationSettingsARN
   UpdateOrganizationSettingsDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -1798,7 +1801,7 @@ Resources:
         LambdaFunctionArn:
           'Fn::ImportValue':
             'Fn::Sub': >-
-              ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}UpdateOrganizationSettingsARN
+              ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}UpdateOrganizationSettingsARN
       ServiceRoleArn:
         'Fn::GetAtt': UpdateOrganizationSettingsRole.Arn
   UpdateOrganizationSettingsResolver:
