@@ -8,7 +8,7 @@ Parameters:
     Default: 3beepReferenceDataService
   SettingsServiceStackName:
     Type: String
-    Default: 3beepSettingsDataService
+    Default: 3beepSettingsService
   S3Bucket:
     Type: String
   Auth0Domain:
