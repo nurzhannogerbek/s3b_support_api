@@ -1689,7 +1689,7 @@ Resources:
       FieldName: deleteOrganizationSettings
       TypeName: Mutation
       DataSourceName:
-        'Fn::GetAtt': DeleteOrganozationSettingsDataSource.Name
+        'Fn::GetAtt': DeleteOrganizationSettingsDataSource.Name
   GetOrganizationSettingsRole:
     Type: 'AWS::IAM::Role'
     Properties:
@@ -1731,10 +1731,10 @@ Resources:
     Properties:
       ApiId:
         'Fn::GetAtt': GraphQLApi.ApiId
-      FieldName: GetOrganizationSettings
+      FieldName: getOrganizationSettings
       TypeName: Mutation
       DataSourceName:
-        'Fn::GetAtt': GetOrganozationSettingsDataSource.Name
+        'Fn::GetAtt': GetOrganizationSettingsDataSource.Name
   GetOrganizationSettingsCountryByIdResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1809,7 +1809,7 @@ Resources:
       FieldName: updateOrganizationSettings
       TypeName: Mutation
       DataSourceName:
-        'Fn::GetAtt': updateOrganozationSettingsDataSource.Name
+        'Fn::GetAtt': UpdateOrganizationSettingsDataSource.Name
   UpdateOrganizationSettingsCountryByIdResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
