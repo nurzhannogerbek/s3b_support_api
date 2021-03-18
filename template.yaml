@@ -1646,7 +1646,7 @@ Resources:
       FieldName: timezone
       TypeName: CreateOrganizationSettingsOutput
       DataSourceName:
-        'Fn::GetAtt': GetTimezoneByIdDataSource.Name
+        'Fn::GetAtt': GetTimezoneDataSource.Name
       RequestMappingTemplate: '{ "version" : "2017-02-28", "operation": "Invoke", "payload": { arguments: { $util.toJson($context.source) }'
   DeleteOrganizationSettingsRole:
     Type: 'AWS::IAM::Role'
@@ -1734,8 +1734,8 @@ Resources:
     Properties:
       ApiId:
         'Fn::GetAtt': GraphQLApi.ApiId
-      FieldName: getOrganizationSettings
-      TypeName: Mutation
+      FieldName: getOrganizationSettingsById
+      TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetOrganizationSettingsDataSource.Name
   GetOrganizationSettingsCountryByIdResolver:
@@ -1766,7 +1766,7 @@ Resources:
       FieldName: timezone
       TypeName: GetOrganizationSettingsByIdOutput
       DataSourceName:
-        'Fn::GetAtt': GetTimezoneByIdDataSource.Name
+        'Fn::GetAtt': GetTimezoneDataSource.Name
       RequestMappingTemplate: '{ "version" : "2017-02-28", "operation": "Invoke", "payload": { arguments: { $util.toJson($context.source) }'
   UpdateOrganizationSettingsRole:
     Type: 'AWS::IAM::Role'
@@ -1841,5 +1841,5 @@ Resources:
       FieldName: timezone
       TypeName: UpdateOrganizationSettingsOutput
       DataSourceName:
-        'Fn::GetAtt': GetTimezoneByIdDataSource.Name
+        'Fn::GetAtt': GetTimezoneDataSource.Name
       RequestMappingTemplate: '{ "version" : "2017-02-28", "operation": "Invoke", "payload": { arguments: { $util.toJson($context.source) }'
