@@ -1627,7 +1627,7 @@ Resources:
       TypeName: CreateOrganizationSettingsOutput
       DataSourceName:
         'Fn::GetAtt': GetCountryDataSource.Name
-      RequestMappingTemplate: '{ "version" : "2017-02-28", "operation": "Invoke", "payload": { arguments: { $util.toJson($context.source) }'
+      RequestMappingTemplate: '{ "version": "2017-02-28", "operation": "Invoke", "payload": { "arguments": $util.toJson($context.source) } }'
   CreateOrganizationSettingsLocationByIdResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1637,7 +1637,7 @@ Resources:
       TypeName: CreateOrganizationSettingsOutput
       DataSourceName:
         'Fn::GetAtt': GetLocationDataSource.Name
-      RequestMappingTemplate: '{ "version" : "2017-02-28", "operation": "Invoke", "payload": { arguments: { $util.toJson($context.source) }'
+      RequestMappingTemplate: '{ "version": "2017-02-28", "operation": "Invoke", "payload": { "arguments": $util.toJson($context.source) } }'
   CreateOrganizationSettingsTimezoneByIdResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1647,7 +1647,7 @@ Resources:
       TypeName: CreateOrganizationSettingsOutput
       DataSourceName:
         'Fn::GetAtt': GetTimezoneByIdDataSource.Name
-      RequestMappingTemplate: '{ "version" : "2017-02-28", "operation": "Invoke", "payload": { arguments: { $util.toJson($context.source) }'
+      RequestMappingTemplate: '{ "version": "2017-02-28", "operation": "Invoke", "payload": { "arguments": $util.toJson($context.source) } }'
   DeleteOrganizationSettingsRole:
     Type: 'AWS::IAM::Role'
     Properties:
@@ -1747,7 +1747,7 @@ Resources:
       TypeName: GetOrganizationSettingsByIdOutput
       DataSourceName:
         'Fn::GetAtt': GetCountryDataSource.Name
-      RequestMappingTemplate: '{ "version" : "2017-02-28", "operation": "Invoke", "payload": { arguments: { $util.toJson($context.source) }'
+      RequestMappingTemplate: '{ "version": "2017-02-28", "operation": "Invoke", "payload": { "arguments": $util.toJson($context.source) } }'
   GetOrganizationSettingsLocationByIdResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1757,7 +1757,7 @@ Resources:
       TypeName: GetOrganizationSettingsByIdOutput
       DataSourceName:
         'Fn::GetAtt': GetLocationDataSource.Name
-      RequestMappingTemplate: '{ "version" : "2017-02-28", "operation": "Invoke", "payload": { arguments: { $util.toJson($context.source) }'
+      RequestMappingTemplate: '{ "version": "2017-02-28", "operation": "Invoke", "payload": { "arguments": $util.toJson($context.source) } }'
   GetOrganizationSettingsTimezoneByIdResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1767,7 +1767,7 @@ Resources:
       TypeName: GetOrganizationSettingsByIdOutput
       DataSourceName:
         'Fn::GetAtt': GetTimezoneByIdDataSource.Name
-      RequestMappingTemplate: '{ "version" : "2017-02-28", "operation": "Invoke", "payload": { arguments: { $util.toJson($context.source) }'
+      RequestMappingTemplate: '{ "version": "2017-02-28", "operation": "Invoke", "payload": { "arguments": $util.toJson($context.source) } }'
   UpdateOrganizationSettingsRole:
     Type: 'AWS::IAM::Role'
     Properties:
@@ -1822,7 +1822,7 @@ Resources:
       TypeName: UpdateOrganizationSettingsOutput
       DataSourceName:
         'Fn::GetAtt': GetCountryDataSource.Name
-      RequestMappingTemplate: '{ "version" : "2017-02-28", "operation": "Invoke", "payload": { arguments: { $util.toJson($context.source) }'
+      RequestMappingTemplate: '{ "version": "2017-02-28", "operation": "Invoke", "payload": { "arguments": $util.toJson($context.source) } }'
   UpdateOrganizationSettingsLocationByIdResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1832,7 +1832,7 @@ Resources:
       TypeName: UpdateOrganizationSettingsOutput
       DataSourceName:
         'Fn::GetAtt': GetLocationDataSource.Name
-      RequestMappingTemplate: '{ "version" : "2017-02-28", "operation": "Invoke", "payload": { arguments: { $util.toJson($context.source) }'
+      RequestMappingTemplate: '{ "version": "2017-02-28", "operation": "Invoke", "payload": { "arguments": $util.toJson($context.source) } }'
   UpdateOrganizationSettingsTimezoneByIdResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1842,4 +1842,4 @@ Resources:
       TypeName: UpdateOrganizationSettingsOutput
       DataSourceName:
         'Fn::GetAtt': GetTimezoneByIdDataSource.Name
-      RequestMappingTemplate: '{ "version" : "2017-02-28", "operation": "Invoke", "payload": { arguments: { $util.toJson($context.source) }'
+      RequestMappingTemplate: '{ "version": "2017-02-28", "operation": "Invoke", "payload": { "arguments": $util.toJson($context.source) } }'
