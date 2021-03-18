@@ -171,6 +171,66 @@ type GetLocationsByCountryIdOutput @aws_api_key {
     locationsByCountryId: GetLocationsOutput!
 }
 
+input CreateOrganizationSettingsInput {
+    organizationId: String!
+    countryId: String
+    locationId: String
+    organizationSettingAddress: String
+    organizationSettingPostalCode: String
+    organizationSettingWorkTime: String
+    organizationSettingPrivacy: String!
+    timezoneId: String
+}
+
+type CreateOrganizationSettingsOutput {
+    organizationId: String!
+    countryId: String
+    country: GetCountryByIdOutput
+    locationId: String
+    location: GetLocationByIdOutput
+    organizationSettingAddress: String
+    organizationSettingPostalCode: String
+    organizationSettingWorkTime: String
+    organizationSettingPrivacy: String!
+    timezoneId: String
+    timezone: GetTimezoneByIdOutput
+}
+
+input UpdateOrganizationSettingsInput {
+    organizationId: String!
+    countryId: String
+    locationId: String
+    organizationSettingAddress: String
+    organizationSettingPostalCode: String
+    organizationSettingWorkTime: String
+    organizationSettingPrivacy: String
+    timezoneId: String
+}
+
+type UpdateOrganizationSettingsOutput @aws_api_key {
+    organizationId: String!
+    countryId: String
+    country: GetCountryByIdOutput
+    locationId: String
+    location: GetLocationByIdOutput
+    organizationSettingAddress: String
+    organizationSettingPostalCode: String
+    organizationSettingWorkTime: String
+    organizationSettingPrivacy: String!
+    timezoneId: String
+    timezone: GetTimezoneByIdOutput
+}
+
+type DeleteOrganizationSettingsOutput @aws_api_key {
+    organizationId: String!
+    deleted: Boolean!
+}
+
+type RestoreDeletedOrganizationSettingsOutput @aws_api_key {
+    organizationId: String!
+    restored: Boolean!
+}
+
 type Mutation {
     # Создать локацию.
     createLocation(input: CreateLocationInput!): CreateLocationOutput!
@@ -220,6 +280,18 @@ type Mutation {
     # Восстановить одну/несколько страну(ан).
     restoreDeletedCountries(input: RestoreDeletedCountriesInput!): RestoreDeletedCountriesOutput!
         @aws_api_key
+    # Создать настройки компании
+    createOrganizationSettings(input: CreateOrganizationSettingsInput!): CreateOrganizationSettingsOutput!
+        @aws_api_key
+    # Обновить настройки компании
+    updateOrganizationSettings(input: UpdateOrganizationSettingsInput!): UpdateOrganizationSettingsOutput!
+        @aws_api_key
+    # Удалить настройки компании
+    deleteOrganizationSettings(osssrganizationId: String!): DeleteOrganizationSettingsOutput!
+        @aws_api_key
+    # Восстановить настройки компании
+    restoreDeletedOrganizationSettings(organizationId: String!): RestoreDeletedOrganizationSettingsOutput!
+        @aws_api_key
 }
 
 type PageInformation @aws_api_key {
@@ -233,6 +305,20 @@ type GetTimezoneByIdOutput @aws_api_key {
     countryAlpha2Code: String!
     timezoneName: String!
     utcOffset: String!
+}
+
+type GetOrganizationSettingsByIdOutput @aws_api_key {
+    organizationId: String!
+    countryId: String
+    country: GetCountryByIdOutput
+    locationId: String
+    location: GetLocationByIdOutput
+    organizationSettingAddress: String
+    organizationSettingPostalCode: String
+    organizationSettingWorkTime: String
+    organizationSettingPrivacy: String!
+    timezoneId: String
+    timezone: GetTimezoneByIdOutput
 }
 
 type Query {
@@ -283,6 +369,9 @@ type Query {
         @aws_api_key
     # Получить список архивированных стран.
     getArchivedCountries(itemsCountPerPage: Int!, currentPageNumber: Int!): GetArchivedCountriesOutput!
+        @aws_api_key
+    # Получить настройки компании по Id. Включает в себя архивированные компании.
+    getOrganizationSettingsById(organizationId: String!): GetOrganizationSettingsByIdOutput!
         @aws_api_key
 }
 
