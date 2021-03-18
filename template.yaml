@@ -1624,7 +1624,7 @@ Resources:
       ApiId:
         'Fn::GetAtt': GraphQLApi.ApiId
       FieldName: country
-      TypeName: CreateOrganizationSettingsByIdOutput
+      TypeName: CreateOrganizationSettingsOutput
       DataSourceName:
         'Fn::GetAtt': GetCountryDataSource.Name
       RequestMappingTemplate: '{ "version" : "2017-02-28", "operation": "Invoke", "payload": { arguments: { $util.toJson($context.source) }'
@@ -1634,7 +1634,7 @@ Resources:
       ApiId:
         'Fn::GetAtt': GraphQLApi.ApiId
       FieldName: location
-      TypeName: CreateOrganizationSettingsByIdOutput
+      TypeName: CreateOrganizationSettingsOutput
       DataSourceName:
         'Fn::GetAtt': GetLocationDataSource.Name
       RequestMappingTemplate: '{ "version" : "2017-02-28", "operation": "Invoke", "payload": { arguments: { $util.toJson($context.source) }'
@@ -1644,7 +1644,7 @@ Resources:
       ApiId:
         'Fn::GetAtt': GraphQLApi.ApiId
       FieldName: timezone
-      TypeName: CreateOrganizationSettingsByIdOutput
+      TypeName: CreateOrganizationSettingsOutput
       DataSourceName:
         'Fn::GetAtt': GetTimezoneByIdDataSource.Name
       RequestMappingTemplate: '{ "version" : "2017-02-28", "operation": "Invoke", "payload": { arguments: { $util.toJson($context.source) }'
@@ -1819,7 +1819,7 @@ Resources:
       ApiId:
         'Fn::GetAtt': GraphQLApi.ApiId
       FieldName: country
-      TypeName: UpdateOrganizationSettingsByIdOutput
+      TypeName: UpdateOrganizationSettingsOutput
       DataSourceName:
         'Fn::GetAtt': GetCountryDataSource.Name
       RequestMappingTemplate: '{ "version" : "2017-02-28", "operation": "Invoke", "payload": { arguments: { $util.toJson($context.source) }'
@@ -1829,7 +1829,7 @@ Resources:
       ApiId:
         'Fn::GetAtt': GraphQLApi.ApiId
       FieldName: location
-      TypeName: UpdateOrganizationSettingsByIdOutput
+      TypeName: UpdateOrganizationSettingsOutput
       DataSourceName:
         'Fn::GetAtt': GetLocationDataSource.Name
       RequestMappingTemplate: '{ "version" : "2017-02-28", "operation": "Invoke", "payload": { arguments: { $util.toJson($context.source) }'
@@ -1839,7 +1839,7 @@ Resources:
       ApiId:
         'Fn::GetAtt': GraphQLApi.ApiId
       FieldName: timezone
-      TypeName: UpdateOrganizationSettingsByIdOutput
+      TypeName: UpdateOrganizationSettingsOutput
       DataSourceName:
         'Fn::GetAtt': GetTimezoneByIdDataSource.Name
       RequestMappingTemplate: '{ "version" : "2017-02-28", "operation": "Invoke", "payload": { arguments: { $util.toJson($context.source) }'
