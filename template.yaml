@@ -1843,3 +1843,48 @@ Resources:
       DataSourceName:
         'Fn::GetAtt': GetTimezoneByIdDataSource.Name
       RequestMappingTemplate: '{ "version": "2017-02-28", "operation": "Invoke", "payload": { "arguments": $util.toJson($context.source) } }'
+  RestoreDeletedOrganizationSettingsRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: RestoreDeletedOrganizationSettingsFunctionAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'lambda:InvokeFunction'
+                Resource:
+                  'Fn::ImportValue':
+                    'Fn::Sub': >-
+                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}RestoreDeletedOrganizationSettingsARN
+  RestoreDeletedOrganizationSettingsDataSource:
+    Type: 'AWS::AppSync::DataSource'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      Name:
+        'Fn::Sub': '${EnvironmentName}RestoreDeletedOrganizationSettings'
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn:
+          'Fn::ImportValue':
+            'Fn::Sub': >-
+              ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}RestoreDeletedOrganizationSettingsARN
+      ServiceRoleArn:
+        'Fn::GetAtt': RestoreDeletedOrganizationSettingsRole.Arn
+  RestoreDeletedOrganizationSettingsResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: restoreDeletedOrganizationSettings
+      TypeName: Mutation
+      DataSourceName:
+        'Fn::GetAtt': RestoreDeletedOrganizationSettingsDataSource.Name
