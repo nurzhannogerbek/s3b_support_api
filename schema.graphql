@@ -231,6 +231,23 @@ type RestoreDeletedOrganizationSettingsOutput @aws_api_key {
     restored: Boolean!
 }
 
+input CreateChannelInput {
+    channelName: String!
+    channelDescription: String
+    channelTypeId: String!
+    channelTechnicalId: String!
+    channelStatusId: String!
+}
+
+type CreateChannelOutput @aws_api_key {
+    channelId: String!
+    channelName: String!
+    channelDescription: String
+    channelTypeId: String!
+    channelTechnicalId: String!
+    channelStatusId: String!
+}
+
 type Mutation {
     # Создать локацию.
     createLocation(input: CreateLocationInput!): CreateLocationOutput!
@@ -291,6 +308,9 @@ type Mutation {
         @aws_api_key
     # Восстановить настройки компании
     restoreDeletedOrganizationSettings(organizationId: String!): RestoreDeletedOrganizationSettingsOutput!
+        @aws_api_key
+    # Создать канал.
+    createChannel(input: CreateChannelInput!): CreateChannelOutput!
         @aws_api_key
 }
 
