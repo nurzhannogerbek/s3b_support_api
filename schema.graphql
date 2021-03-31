@@ -292,6 +292,11 @@ type Mutation {
     # Восстановить настройки компании
     restoreDeletedOrganizationSettings(organizationId: String!): RestoreDeletedOrganizationSettingsOutput!
         @aws_api_key
+    deleteOrganizations(organizationsIds: [String!]!): DeleteOrganizationsOutput!
+        @aws_api_key
+    restoreDeletedOrganizations(organizationsIds: [String!]!): RestoreDeletedOrganizationsOutput!
+        @aws_api_key
+
 }
 
 type PageInformation @aws_api_key {
@@ -319,6 +324,16 @@ type GetOrganizationSettingsByIdOutput @aws_api_key {
     organizationSettingPrivacy: String!
     timezoneId: String
     timezone: GetTimezoneByIdOutput
+}
+
+type DeleteOrganizationsOutput @aws_api_key {
+    organizationsIds: [String!]!
+    deleted: Boolean!
+}
+
+type RestoreDeletedOrganizationsOutput @aws_api_key {
+    organizationsIds: [String!]!
+    restored: Boolean!
 }
 
 type Query {
@@ -372,6 +387,18 @@ type Query {
         @aws_api_key
     # Получить настройки компании по Id. Включает в себя архивированные компании.
     getOrganizationSettingsById(organizationId: String!): GetOrganizationSettingsByIdOutput!
+        @aws_api_key
+    getAllArchivedOrganizationDepartments(rootOrganizationId: String!): [OrganizationOutput!]!
+        @aws_api_key
+    getAllOrganizationDepartments(rootOrganizationId: String!): [OrganizationOutput!]!
+        @aws_api_key
+    getArchivedOrganizationDepartmentsById(parentOrganizationId: String!): [OrganizationOutput!]!
+        @aws_api_key
+    getOrganizationById(irganizationId: String!): OrganizationOutput!
+        @aws_api_key
+    getOrganizationDepartmentsById(parentOrganizationId: String!): [OrganizationOutput!]!
+        @aws_api_key
+    getOrganizationsByIds(organizationsIds: [String!]!): [OrganizationOutput!]!
         @aws_api_key
 }
 
@@ -473,6 +500,20 @@ type UpdateLocationOutput @aws_api_key {
     locationName: String!
     locationAdministrativeDivisionCode: String!
     locationCoordinates: String!
+}
+
+type OrganizationOutput @aws_api_key {
+    organizationId: String!
+    organizationName: String!
+    parentOrganizationId: String!
+    parentOrganizationName: String!
+    rootOrganizationId: String!
+    rootOrganizationName: String!
+    organizationLevel: Int!
+    parentOrganizationLeval: Int!
+    rootOrganizationLeval: Int!
+    treeOrganizationId: String!
+    treeOrganizationName: String!
 }
 
 schema {
