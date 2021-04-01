@@ -20,7 +20,7 @@ definitions:
           - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
           - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
           - export GRAPHQL_SCHEMA_FILE_NAME="schema.graphql"
-          - aws s3 mv s3://$S3_BUCKET/schema.graphql s3://$S3_BUCKET/$GRAPHQL_SCHEMA_FILE_NAME
+          // - aws s3 mv s3://$S3_BUCKET/schema.graphql s3://$S3_BUCKET/$GRAPHQL_SCHEMA_FILE_NAME
           - export API_KEY_EXPIRES=`date +%s -d "365 day"`
           - export CLOUDFORMATION_TEMPLATE="https://$S3_BUCKET.s3.$AWS_DEFAULT_REGION.amazonaws.com/template.yaml"
           - pipe: atlassian/aws-sam-deploy:0.5.2
