@@ -15,12 +15,12 @@ definitions:
               EXTRA_ARGS: '--exclude=* --include=*.graphql --include=template.yaml'
               DELETE_FLAG: 'true'
               DEBUG: 'true'
-          - pip3 install -U awscli==1.19.8
-          - aws configure set default.region $AWS_DEFAULT_REGION
-          - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-          - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-          - export GRAPHQL_SCHEMA_FILE_NAME="schema$BITBUCKET_BUILD_NUMBER.graphql"
-          - aws s3 mv s3://$S3_BUCKET/schema.graphql s3://$S3_BUCKET/$GRAPHQL_SCHEMA_FILE_NAME
+          # - pip3 install -U awscli==1.19.8
+          # - aws configure set default.region $AWS_DEFAULT_REGION
+          # - aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+          # - aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+          # - export GRAPHQL_SCHEMA_FILE_NAME="schema$BITBUCKET_BUILD_NUMBER.graphql"
+          # - aws s3 mv s3://$S3_BUCKET/schema.graphql s3://$S3_BUCKET/$GRAPHQL_SCHEMA_FILE_NAME
           - export API_KEY_EXPIRES=`date +%s -d "365 day"`
           - export CLOUDFORMATION_TEMPLATE="https://$S3_BUCKET.s3.$AWS_DEFAULT_REGION.amazonaws.com/template.yaml"
           - pipe: atlassian/aws-sam-deploy:1.2.0
@@ -58,7 +58,7 @@ definitions:
                   },
                   {
                     "ParameterKey": "GraphQLSchemaFileName",
-                    "ParameterValue": "${GRAPHQL_SCHEMA_FILE_NAME}"
+                    "ParameterValue": "schema.graphql"
                   },
                   {
                     "ParameterKey": "ApiKeyExpires",
