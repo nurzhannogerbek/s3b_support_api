@@ -2022,7 +2022,7 @@ Resources:
     Properties:
       ApiId:
         'Fn::GetAtt': GraphQLApi.ApiId
-      FieldName: DeleteOrganizations
+      FieldName: deleteOrganizations
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': DeleteOrganizationsDataSource.Name
