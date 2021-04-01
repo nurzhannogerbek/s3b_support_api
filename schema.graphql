@@ -440,7 +440,7 @@ type Query {
         @aws_api_key
     getAllArchivedOrganizationDepartments(rootOrganizationId: String!): [OrganizationOutput!]!
         @aws_api_key
-    getAllOrganizationDepartments(rootOrganizationId: String!): [OrganizationOutput]
+    getAllOrganizationDepartments(rootOrganizationId: String!): [OrganizationOutput!]!
         @aws_api_key
     getArchivedOrganizationDepartmentsById(parentOrganizationId: String!): [OrganizationOutput!]!
         @aws_api_key
