@@ -5,6 +5,8 @@ definitions:
         caches:
           - pip
         script:
+          - export GRAPHQL_SCHEMA_FILE_NAME="schema$BITBUCKET_BUILD_NUMBER.graphql"
+          - mv schema.graphql $GRAPHQL_SCHEMA_FILE_NAME
           - pipe: atlassian/aws-s3-deploy:0.4.5
             variables:
               AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
@@ -58,7 +60,7 @@ definitions:
                   },
                   {
                     "ParameterKey": "GraphQLSchemaFileName",
-                    "ParameterValue": "schema.graphql"
+                    "ParameterValue": "${GRAPHQL_SCHEMA_FILE_NAME}"
                   },
                   {
                     "ParameterKey": "ApiKeyExpires",
