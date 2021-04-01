@@ -231,6 +231,23 @@ type RestoreDeletedOrganizationSettingsOutput @aws_api_key {
     restored: Boolean!
 }
 
+input CreateChannelInput {
+    channelName: String!
+    channelDescription: String
+    channelTypeId: String!
+    channelTechnicalId: String!
+    channelStatusId: String!
+}
+
+type CreateChannelOutput @aws_api_key {
+    channelId: String!
+    channelName: String!
+    channelDescription: String
+    channelTypeId: String!
+    channelTechnicalId: String!
+    channelStatusId: String!
+}
+
 type Mutation {
     # Создать локацию.
     createLocation(input: CreateLocationInput!): CreateLocationOutput!
@@ -292,11 +309,13 @@ type Mutation {
     # Восстановить настройки компании
     restoreDeletedOrganizationSettings(organizationId: String!): RestoreDeletedOrganizationSettingsOutput!
         @aws_api_key
+    # Создать канал.
+    createChannel(input: CreateChannelInput!): CreateChannelOutput!
+        @aws_api_key
     deleteOrganizations(organizationsIds: [String!]!): DeleteOrganizationsOutput!
         @aws_api_key
     restoreDeletedOrganizations(organizationsIds: [String!]!): RestoreDeletedOrganizationsOutput!
         @aws_api_key
-
 }
 
 type PageInformation @aws_api_key {
@@ -334,6 +353,34 @@ type DeleteOrganizationsOutput @aws_api_key {
 type RestoreDeletedOrganizationsOutput @aws_api_key {
     organizationsIds: [String!]!
     restored: Boolean!
+}
+
+type GetFacebookPagesOutput @aws_api_key {
+    data: [FacebookPagesDataOutput]
+    paging: FacebookPagesPagingOutput
+}
+
+type FacebookPagesPagingOutput @aws_api_key {
+    cursors: FacebookPagesCursorsOutput
+}
+
+type FacebookPagesCursorsOutput @aws_api_key {
+    before: String
+    after: String
+}
+
+type FacebookPagesDataOutput @aws_api_key {
+    accessToken: String
+    category: String
+    categoryList: [FacebookPagesCategoryListOutput]
+    name: String
+    id: String
+    tasks: [String]
+}
+
+type FacebookPagesCategoryListOutput @aws_api_key {
+	id: String
+	name: String
 }
 
 type Query {
@@ -387,6 +434,9 @@ type Query {
         @aws_api_key
     # Получить настройки компании по Id. Включает в себя архивированные компании.
     getOrganizationSettingsById(organizationId: String!): GetOrganizationSettingsByIdOutput!
+        @aws_api_key
+    # Получить список Facebook страниц, которыми владеет пользователь.
+    getFacebookPages(userId: String!, shortLivedUserAccessToken: String!): GetFacebookPagesOutput!
         @aws_api_key
     getAllArchivedOrganizationDepartments(rootOrganizationId: String!): [OrganizationOutput!]!
         @aws_api_key
