@@ -554,7 +554,7 @@ type UpdateLocationOutput @aws_api_key {
 
 type OrganizationOutput @aws_api_key {
     organizationId: String!
-    organizationName: String!
+    organizationName: String
     parentOrganizationId: String!
     parentOrganizationName: String!
     rootOrganizationId: String!
