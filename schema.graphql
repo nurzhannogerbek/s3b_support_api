@@ -444,7 +444,7 @@ type Query {
         @aws_api_key
     getArchivedOrganizationDepartmentsById(parentOrganizationId: String!): [OrganizationOutput!]!
         @aws_api_key
-    getOrganizationById(irganizationId: String!): OrganizationOutput!
+    getOrganizationById(organizationId: String!): OrganizationOutput!
         @aws_api_key
     getOrganizationDepartmentsById(parentOrganizationId: String!): [OrganizationOutput!]!
         @aws_api_key
@@ -560,8 +560,8 @@ type OrganizationOutput @aws_api_key {
     rootOrganizationId: String!
     rootOrganizationName: String!
     organizationLevel: Int!
-    parentOrganizationLeval: Int!
-    rootOrganizationLeval: Int!
+    parentOrganizationLevel: Int!
+    rootOrganizationLevel: Int!
     treeOrganizationId: String!
     treeOrganizationName: String!
 }
