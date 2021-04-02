@@ -231,6 +231,18 @@ type RestoreDeletedOrganizationSettingsOutput @aws_api_key {
     restored: Boolean!
 }
 
+type ChannelStatusOutput @aws_api_key {
+    channelStatusId: String
+    channelStatusName: String
+    channelStatusDescription: String
+}
+
+type ChannelTypeOutput @aws_api_key {
+    channelTypeId: String
+    channelTypeName: String
+    channelTypeDescription: String
+}
+
 input CreateChannelInput {
     channelName: String!
     channelDescription: String
@@ -240,12 +252,14 @@ input CreateChannelInput {
 }
 
 type CreateChannelOutput @aws_api_key {
-    channelId: String!
-    channelName: String!
+    channelId: String
+    channelName: String
     channelDescription: String
-    channelTypeId: String!
-    channelTechnicalId: String!
-    channelStatusId: String!
+    channelTypeId: String
+    channelType: ChannelTypeOutput
+    channelTechnicalId: String
+    channelStatusId: String
+    channelStatus: ChannelStatusOutput
 }
 
 type Mutation {
@@ -310,7 +324,7 @@ type Mutation {
     restoreDeletedOrganizationSettings(organizationId: String!): RestoreDeletedOrganizationSettingsOutput!
         @aws_api_key
     # Создать канал.
-    createChannel(input: CreateChannelInput!): CreateChannelOutput!
+    createChannel(input: CreateChannelInput!): CreateChannelOutput
         @aws_api_key
     deleteOrganizations(organizationsIds: [String!]!): DeleteOrganizationsOutput!
         @aws_api_key
@@ -383,6 +397,32 @@ type FacebookPagesCategoryListOutput @aws_api_key {
 	name: String
 }
 
+type GetChannelOutput @aws_api_key {
+    channelId: String
+    channelName: String
+    channelDescription: String
+    channelTypeId: String
+    channelType: ChannelTypeOutput
+    channelTechnicalId: String
+    channelStatusId: String
+    channelStatus: ChannelStatusOutput
+    organizationIds: [String]
+    organizations: [OrganizationOutput]
+}
+
+type GetChannelsOutput @aws_api_key {
+    channelId: String
+    channelName: String
+    channelDescription: String
+    channelTypeId: String
+    channelType: ChannelTypeOutput
+    channelTechnicalId: String
+    channelStatusId: String
+    channelStatus: ChannelStatusOutput
+    organizationIds: [String]
+    organizations: [OrganizationOutput]
+}
+
 type Query {
     # Получить временную зону по id. Включает в себя архивированные временые зоны.
     getTimezoneById(timezoneId: String!): GetTimezoneByIdOutput!
@@ -449,6 +489,12 @@ type Query {
     getOrganizationDepartmentsById(parentOrganizationId: String!): [OrganizationOutput!]!
         @aws_api_key
     getOrganizationsByIds(organizationsIds: [String!]!): [OrganizationOutput!]!
+        @aws_api_key
+    # Получить канал по id.
+    getChannel(channelId: String!): GetChannelOutput
+        @aws_api_key
+    # Получить все каналы определенной организации.
+    getChannels(organizationId: String!): [GetChannelsOutput]
         @aws_api_key
 }
 
