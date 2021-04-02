@@ -370,9 +370,9 @@ type FacebookPagesCursorsOutput @aws_api_key {
 }
 
 type FacebookPagesDataOutput @aws_api_key {
-    accessToken: String
+    access_token: String
     category: String
-    categoryList: [FacebookPagesCategoryListOutput]
+    category_list: [FacebookPagesCategoryListOutput]
     name: String
     id: String
     tasks: [String]

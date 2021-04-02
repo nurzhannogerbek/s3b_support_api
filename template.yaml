@@ -1998,11 +1998,11 @@ Resources:
       DataSourceName:
         'Fn::GetAtt': GetFacebookPagesDataSource.Name
       ResponseMappingTemplate: |
-        #set($result = {
-          "accessToken": $response.data.access_token,
-          "categoryList": $response.data.category_list
-        })
-        $util.toJson($result)
+        #if($ctx.result.statusCode == 200)
+            $util.toJson($util.parseJson($ctx.result.body).result)
+        #else
+            $utils.appendError($ctx.result.body, "$ctx.result.statusCode")
+        #end
 
   CreateChannelRole:
     Type: 'AWS::IAM::Role'
