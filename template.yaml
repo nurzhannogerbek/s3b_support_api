@@ -2043,6 +2043,96 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': CreateChannelDataSource.Name
+  GetChannelRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: GetChannelFunctionAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'lambda:InvokeFunction'
+                Resource:
+                  'Fn::ImportValue':
+                    'Fn::Sub': >-
+                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetChannelARN
+  GetChannelDataSource:
+    Type: 'AWS::AppSync::DataSource'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      Name:
+        'Fn::Sub': '${EnvironmentName}GetChannel'
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn:
+          'Fn::ImportValue':
+            'Fn::Sub': >-
+              ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetChannelARN
+      ServiceRoleArn:
+        'Fn::GetAtt': GetChannelRole.Arn
+  GetChannelResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: getChannel
+      TypeName: Query
+      DataSourceName:
+        'Fn::GetAtt': GetChannelDataSource.Name
+  GetChannelsRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: GetChannelsFunctionAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'lambda:InvokeFunction'
+                Resource:
+                  'Fn::ImportValue':
+                    'Fn::Sub': >-
+                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetChannelsARN
+  GetChannelsDataSource:
+    Type: 'AWS::AppSync::DataSource'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      Name:
+        'Fn::Sub': '${EnvironmentName}GetChannels'
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn:
+          'Fn::ImportValue':
+            'Fn::Sub': >-
+              ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetChannelsARN
+      ServiceRoleArn:
+        'Fn::GetAtt': GetChannelsRole.Arn
+  GetChannelsResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: getChannels
+      TypeName: Query
+      DataSourceName:
+        'Fn::GetAtt': GetChannelsDataSource.Name
 
   DeleteOrganizationsRole:
     Type: 'AWS::IAM::Role'
