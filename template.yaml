@@ -1997,6 +1997,12 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetFacebookPagesDataSource.Name
+      ResponseMappingTemplate: |
+        #set($result = {
+          "accessToken": $response.data.access_token,
+          "categoryList": $response.data.category_list
+        })
+        $util.toJson($result)
 
   CreateChannelRole:
     Type: 'AWS::IAM::Role'
