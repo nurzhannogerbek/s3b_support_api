@@ -2494,4 +2494,3 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': RestoreDeletedOrganizationsDataSource.Name
-
