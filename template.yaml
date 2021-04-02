@@ -1997,12 +1997,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetFacebookPagesDataSource.Name
-      ResponseMappingTemplate: |
-        #if($ctx.result.statusCode == 200)
-            $util.toJson($util.parseJson($ctx.result.body).result)
-        #else
-            $utils.appendError($ctx.result.body, "$ctx.result.statusCode")
-        #end
 
   CreateChannelRole:
     Type: 'AWS::IAM::Role'
