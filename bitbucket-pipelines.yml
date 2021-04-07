@@ -5,8 +5,7 @@ definitions:
         caches:
           - pip
         script:
-          # - export GRAPHQL_SCHEMA_FILE_NAME="schema$BITBUCKET_BUILD_NUMBER.graphql"
-          - export GRAPHQL_SCHEMA_FILE_NAME="schema.graphql"
+          - export GRAPHQL_SCHEMA_FILE_NAME="schema$BITBUCKET_BUILD_NUMBER.graphql"
           - mv schema.graphql $GRAPHQL_SCHEMA_FILE_NAME
           - pipe: atlassian/aws-s3-deploy:0.4.5
             variables:
