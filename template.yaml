@@ -2094,9 +2094,9 @@ Resources:
       ApiId:
         'Fn::GetAtt': GraphQLApi.ApiId
       FieldName: organizations
-      TypeName: OrganizationOutput
+      TypeName: GetChannelOutput
       DataSourceName:
-        'Fn::GetAtt': GetChannelDataSource.Name
+        'Fn::GetAtt': GetOrganizationsByIdsDataSource.Name
       RequestMappingTemplate: |
         {
            "version":"2017-02-28",
@@ -2156,9 +2156,9 @@ Resources:
       ApiId:
         'Fn::GetAtt': GraphQLApi.ApiId
       FieldName: organizations
-      TypeName: OrganizationOutput
+      TypeName: GetChannelsOutput
       DataSourceName:
-        'Fn::GetAtt': GetChannelsDataSource.Name
+        'Fn::GetAtt': GetOrganizationsByIdsDataSource.Name
       RequestMappingTemplate: |
         {
            "version":"2017-02-28",
