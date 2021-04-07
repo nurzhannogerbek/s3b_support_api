@@ -2088,23 +2088,23 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetChannelDataSource.Name
-  # GetChannelOrganizationsByIdsResolver:
-    # Type: 'AWS::AppSync::Resolver'
-    # Properties:
-      # ApiId:
-        # 'Fn::GetAtt': GraphQLApi.ApiId
-      # FieldName: organizations
-      # TypeName: OrganizationOutput
-      # DataSourceName:
-        # 'Fn::GetAtt': GetOrganizationsByIdsDataSource.Name
-      # RequestMappingTemplate: |
-        # {
-           # "version":"2017-02-28",
-           # "operation":"Invoke",
-           # "payload":{
-              # "arguments":"$util.toJson($context.source)"
-           # }
-        # }
+  GetChannelOrganizationsByIdsResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: organizations
+      TypeName: OrganizationOutput
+      DataSourceName:
+        'Fn::GetAtt': GetOrganizationsByIdsDataSource.Name
+      RequestMappingTemplate: |
+        {
+           "version":"2017-02-28",
+           "operation":"Invoke",
+           "payload":{
+              "arguments":"$util.toJson($context.source)"
+           }
+        }
   GetChannelsRole:
     Type: 'AWS::IAM::Role'
     Properties:
@@ -2150,23 +2150,23 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetChannelsDataSource.Name
-  # GetChannelsOrganizationsByIdsResolver:
-    # Type: 'AWS::AppSync::Resolver'
-    # Properties:
-      # ApiId:
-        # 'Fn::GetAtt': GraphQLApi.ApiId
-      # FieldName: organizations
-      # TypeName: OrganizationOutput
-      # DataSourceName:
-        # 'Fn::GetAtt': GetOrganizationsByIdsDataSource.Name
-      # RequestMappingTemplate: |
-        # {
-           # "version":"2017-02-28",
-           # "operation":"Invoke",
-           # "payload":{
-              # "arguments":"$util.toJson($context.source)"
-            # }
-        # }
+  GetChannelsOrganizationsByIdsResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: organizations
+      TypeName: OrganizationOutput
+      DataSourceName:
+        'Fn::GetAtt': GetOrganizationsByIdsDataSource.Name
+      RequestMappingTemplate: |
+        {
+           "version":"2017-02-28",
+           "operation":"Invoke",
+           "payload":{
+              "arguments":"$util.toJson($context.source)"
+            }
+        }
 
   DeleteOrganizationsRole:
     Type: 'AWS::IAM::Role'
