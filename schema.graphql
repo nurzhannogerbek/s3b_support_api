@@ -406,7 +406,7 @@ type GetChannelOutput @aws_api_key {
     channelTechnicalId: String
     channelStatusId: String
     channelStatus: ChannelStatusOutput
-    organizationIds: [String]
+    organizationsIds: [String]
     organizations: [OrganizationOutput]
 }
 
@@ -419,7 +419,7 @@ type GetChannelsOutput @aws_api_key {
     channelTechnicalId: String
     channelStatusId: String
     channelStatus: ChannelStatusOutput
-    organizationIds: [String]
+    organizationsIds: [String]
     organizations: [OrganizationOutput]
 }
 
