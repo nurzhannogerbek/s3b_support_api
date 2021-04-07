@@ -2096,7 +2096,7 @@ Resources:
       FieldName: organizations
       TypeName: OrganizationOutput
       DataSourceName:
-        'Fn::GetAtt': GetOrganizationsByIdsDataSource.Name
+        'Fn::GetAtt': GetChannelDataSource.Name
       RequestMappingTemplate: |
         {
            "version":"2017-02-28",
@@ -2158,7 +2158,7 @@ Resources:
       FieldName: organizations
       TypeName: OrganizationOutput
       DataSourceName:
-        'Fn::GetAtt': GetOrganizationsByIdsDataSource.Name
+        'Fn::GetAtt': GetChannelsDataSource.Name
       RequestMappingTemplate: |
         {
            "version":"2017-02-28",
