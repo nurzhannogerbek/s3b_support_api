@@ -249,6 +249,7 @@ input CreateChannelInput {
     channelTypeId: String!
     channelTechnicalId: String!
     channelStatusId: String!
+    organizationsIds: [String!]!
 }
 
 type CreateChannelOutput @aws_api_key {
@@ -260,6 +261,8 @@ type CreateChannelOutput @aws_api_key {
     channelTechnicalId: String
     channelStatusId: String
     channelStatus: ChannelStatusOutput
+    organizationsIds: [String]
+    organizations: [OrganizationOutput]
 }
 
 type Mutation {
