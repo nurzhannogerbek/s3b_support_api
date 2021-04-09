@@ -2060,6 +2060,68 @@ Resources:
               "arguments": $util.toJson($context.source)
            }
         }
+  UpdateChannelRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: UpdateChannelFunctionAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'lambda:InvokeFunction'
+                Resource:
+                  'Fn::ImportValue':
+                    'Fn::Sub': >-
+                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}UpdateChannelARN
+  UpdateChannelDataSource:
+    Type: 'AWS::AppSync::DataSource'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      Name:
+        'Fn::Sub': '${EnvironmentName}UpdateChannel'
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn:
+          'Fn::ImportValue':
+            'Fn::Sub': >-
+              ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}UpdateChannelARN
+      ServiceRoleArn:
+        'Fn::GetAtt': UpdateChannelRole.Arn
+  UpdateChannelResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: updateChannel
+      TypeName: Mutation
+      DataSourceName:
+        'Fn::GetAtt': UpdateChannelDataSource.Name
+  UpdateChannelOrganizationsByIdsResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: organizations
+      TypeName: UpdateChannelOutput
+      DataSourceName:
+        'Fn::GetAtt': GetOrganizationsByIdsDataSource.Name
+      RequestMappingTemplate: |
+        {
+           "version": "2017-02-28",
+           "operation": "Invoke",
+           "payload": {
+              "arguments": $util.toJson($context.source)
+           }
+        }
   GetChannelRole:
     Type: 'AWS::IAM::Role'
     Properties:

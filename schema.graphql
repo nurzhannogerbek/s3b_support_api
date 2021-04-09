@@ -265,6 +265,29 @@ type CreateChannelOutput @aws_api_key {
     organizations: [OrganizationOutput]
 }
 
+input UpdateChannelInput {
+    channelId: String!
+    channelName: String!
+    channelDescription: String
+    channelTypeId: String!
+    channelTechnicalId: String!
+    channelStatusId: String!
+    organizationsIds: [String!]!
+}
+
+type UpdateChannelOutput @aws_api_key {
+    channelId: String
+    channelName: String
+    channelDescription: String
+    channelTypeId: String
+    channelType: ChannelTypeOutput
+    channelTechnicalId: String
+    channelStatusId: String
+    channelStatus: ChannelStatusOutput
+    organizationsIds: [String]
+    organizations: [OrganizationOutput]
+}
+
 type Mutation {
     # Создать локацию.
     createLocation(input: CreateLocationInput!): CreateLocationOutput!
@@ -329,9 +352,14 @@ type Mutation {
     # Создать канал.
     createChannel(input: CreateChannelInput!): CreateChannelOutput
         @aws_api_key
+<<<<<<< HEAD
     createOrganization(organizationName: String!): OrganizationOutput!
         @aws_api_key
     createOrganizationDepartment(organizationName: String!, parentOrganizationId: String!): OrganizationOutput!
+=======
+    # Обновить информацию канала.
+    updateChannel(input: UpdateChannelInput!): UpdateChannelOutput
+>>>>>>> b15338374ab2b275aa77b5b4c48fb65bad0ddd1a
         @aws_api_key
     deleteOrganizations(organizationsIds: [String!]!): DeleteOrganizationsOutput!
         @aws_api_key
