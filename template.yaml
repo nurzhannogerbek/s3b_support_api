@@ -2185,6 +2185,96 @@ Resources:
             }
         }
 
+  CreateOrganizationRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: CreateOrganizationFunctionAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'lambda:InvokeFunction'
+                Resource:
+                  'Fn::ImportValue':
+                    'Fn::Sub': >-
+                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}CreateOrganizationARN
+  CreateOrganizationDataSource:
+    Type: 'AWS::AppSync::DataSource'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      Name:
+        'Fn::Sub': '${EnvironmentName}CreateOrganization'
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn:
+          'Fn::ImportValue':
+            'Fn::Sub': >-
+              ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}CreateOrganizationARN
+      ServiceRoleArn:
+        'Fn::GetAtt': CreateOrganizationRole.Arn
+  CreateOrganizationResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: createOrganization
+      TypeName: Mutation
+      DataSourceName:
+        'Fn::GetAtt': CreateOrganizationDataSource.Name
+  CreateOrganizationDepartmentRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: CreateOrganizationDepartmentFunctionAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'lambda:InvokeFunction'
+                Resource:
+                  'Fn::ImportValue':
+                    'Fn::Sub': >-
+                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}CreateOrganizationDepartmentARN
+  CreateOrganizationDepartmentDataSource:
+    Type: 'AWS::AppSync::DataSource'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      Name:
+        'Fn::Sub': '${EnvironmentName}CreateOrganizationDepartment'
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn:
+          'Fn::ImportValue':
+            'Fn::Sub': >-
+              ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}CreateOrganizationDepartmentARN
+      ServiceRoleArn:
+        'Fn::GetAtt': CreateOrganizationDepartmentRole.Arn
+  CreateOrganizationDepartmentResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: createOrganizationDepartment
+      TypeName: Mutation
+      DataSourceName:
+        'Fn::GetAtt': CreateOrganizationDepartmentDataSource.Name
   DeleteOrganizationsRole:
     Type: 'AWS::IAM::Role'
     Properties:
@@ -2545,3 +2635,48 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': RestoreDeletedOrganizationsDataSource.Name
+  UpdateOrganizationNameRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: UpdateOrganizationNameFunctionAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'lambda:InvokeFunction'
+                Resource:
+                  'Fn::ImportValue':
+                    'Fn::Sub': >-
+                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}UpdateOrganizationNameARN
+  UpdateOrganizationNameDataSource:
+    Type: 'AWS::AppSync::DataSource'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      Name:
+        'Fn::Sub': '${EnvironmentName}UpdateOrganizationName'
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn:
+          'Fn::ImportValue':
+            'Fn::Sub': >-
+              ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}UpdateOrganizationNameARN
+      ServiceRoleArn:
+        'Fn::GetAtt': UpdateOrganizationNameRole.Arn
+  UpdateOrganizationNameResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: updateOrganizationName
+      TypeName: Mutation
+      DataSourceName:
+        'Fn::GetAtt': UpdateOrganizationNameDataSource.Name

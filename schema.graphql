@@ -329,9 +329,15 @@ type Mutation {
     # Создать канал.
     createChannel(input: CreateChannelInput!): CreateChannelOutput
         @aws_api_key
+    createOrganization(organizationName: String!): OrganizationOutput!
+        @aws_api_key
+    createOrganizationDepartment(organizationName: String!, parentOrganizationId: String!): OrganizationOutput!
+        @aws_api_key
     deleteOrganizations(organizationsIds: [String!]!): DeleteOrganizationsOutput!
         @aws_api_key
     restoreDeletedOrganizations(organizationsIds: [String!]!): RestoreDeletedOrganizationsOutput!
+        @aws_api_key
+    updateOrganizationName(organizationName: String!): OrganizationOutput!
         @aws_api_key
 }
 
@@ -603,7 +609,7 @@ type UpdateLocationOutput @aws_api_key {
 
 type OrganizationOutput @aws_api_key {
     organizationId: String!
-    organizationName: String
+    organizationName: String!
     parentOrganizationId: String!
     parentOrganizationName: String!
     rootOrganizationId: String!
