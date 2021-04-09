@@ -1629,10 +1629,10 @@ Resources:
         'Fn::GetAtt': GetCountryDataSource.Name
       RequestMappingTemplate: |
         {
-           "version":"2017-02-28",
-           "operation":"Invoke",
-           "payload":{
-              "arguments":"$util.toJson($context.source)"
+           "version": "2017-02-28",
+           "operation": "Invoke",
+           "payload": {
+              "arguments": $util.toJson($context.source)
            }
         }
   CreateOrganizationSettingsLocationByIdResolver:
@@ -1646,10 +1646,10 @@ Resources:
         'Fn::GetAtt': GetLocationDataSource.Name
       RequestMappingTemplate: |
         {
-           "version":"2017-02-28",
-           "operation":"Invoke",
-           "payload":{
-              "arguments":"$util.toJson($context.source)"
+           "version": "2017-02-28",
+           "operation": "Invoke",
+           "payload": {
+              "arguments": $util.toJson($context.source)
            }
         }
   CreateOrganizationSettingsTimezoneByIdResolver:
@@ -1663,10 +1663,10 @@ Resources:
         'Fn::GetAtt': GetTimezoneByIdDataSource.Name
       RequestMappingTemplate: |
         {
-           "version":"2017-02-28",
-           "operation":"Invoke",
-           "payload":{
-              "arguments":"$util.toJson($context.source)"
+           "version": "2017-02-28",
+           "operation": "Invoke",
+           "payload": {
+              "arguments": $util.toJson($context.source)
            }
         }
   DeleteOrganizationSettingsRole:
@@ -1770,10 +1770,10 @@ Resources:
         'Fn::GetAtt': GetCountryDataSource.Name
       RequestMappingTemplate: |
         {
-           "version":"2017-02-28",
-           "operation":"Invoke",
-           "payload":{
-              "arguments":"$util.toJson($context.source)"
+           "version": "2017-02-28",
+           "operation": "Invoke",
+           "payload": {
+              "arguments": $util.toJson($context.source)
            }
         }
   GetOrganizationSettingsLocationByIdResolver:
@@ -1787,10 +1787,10 @@ Resources:
         'Fn::GetAtt': GetLocationDataSource.Name
       RequestMappingTemplate: |
         {
-           "version":"2017-02-28",
-           "operation":"Invoke",
-           "payload":{
-              "arguments":"$util.toJson($context.source)"
+           "version": "2017-02-28",
+           "operation": "Invoke",
+           "payload": {
+              "arguments": $util.toJson($context.source)
            }
         }
   GetOrganizationSettingsTimezoneByIdResolver:
@@ -1804,10 +1804,10 @@ Resources:
         'Fn::GetAtt': GetTimezoneByIdDataSource.Name
       RequestMappingTemplate: |
         {
-           "version":"2017-02-28",
-           "operation":"Invoke",
-           "payload":{
-              "arguments":"$util.toJson($context.source)"
+           "version": "2017-02-28",
+           "operation": "Invoke",
+           "payload": {
+              "arguments": $util.toJson($context.source)
            }
         }
   UpdateOrganizationSettingsRole:
@@ -1866,10 +1866,10 @@ Resources:
         'Fn::GetAtt': GetCountryDataSource.Name
       RequestMappingTemplate: |
         {
-           "version":"2017-02-28",
-           "operation":"Invoke",
-           "payload":{
-              "arguments":"$util.toJson($context.source)"
+           "version": "2017-02-28",
+           "operation": "Invoke",
+           "payload": {
+              "arguments": $util.toJson($context.source)
            }
         }
   UpdateOrganizationSettingsLocationByIdResolver:
@@ -1883,10 +1883,10 @@ Resources:
         'Fn::GetAtt': GetLocationDataSource.Name
       RequestMappingTemplate: |
         {
-           "version":"2017-02-28",
-           "operation":"Invoke",
-           "payload":{
-              "arguments":"$util.toJson($context.source)"
+           "version": "2017-02-28",
+           "operation": "Invoke",
+           "payload": {
+              "arguments": $util.toJson($context.source)
            }
         }
   UpdateOrganizationSettingsTimezoneByIdResolver:
@@ -1900,10 +1900,10 @@ Resources:
         'Fn::GetAtt': GetTimezoneByIdDataSource.Name
       RequestMappingTemplate: |
         {
-           "version":"2017-02-28",
-           "operation":"Invoke",
-           "payload":{
-              "arguments":"$util.toJson($context.source)"
+           "version": "2017-02-28",
+           "operation": "Invoke",
+           "payload": {
+              "arguments": $util.toJson($context.source)
            }
         }
   RestoreDeletedOrganizationSettingsRole:
@@ -2054,10 +2054,10 @@ Resources:
         'Fn::GetAtt': GetOrganizationsByIdsDataSource.Name
       RequestMappingTemplate: |
         {
-           "version":"2017-02-28",
-           "operation":"Invoke",
-           "payload":{
-              "arguments":$util.toJson($context.source)
+           "version": "2017-02-28",
+           "operation": "Invoke",
+           "payload": {
+              "arguments": $util.toJson($context.source)
            }
         }
   GetChannelRole:
@@ -2116,10 +2116,10 @@ Resources:
         'Fn::GetAtt': GetOrganizationsByIdsDataSource.Name
       RequestMappingTemplate: |
         {
-           "version":"2017-02-28",
-           "operation":"Invoke",
-           "payload":{
-              "arguments":$util.toJson($context.source)
+           "version": "2017-02-28",
+           "operation": "Invoke",
+           "payload": {
+              "arguments": $util.toJson($context.source)
            }
         }
   GetChannelsRole:
@@ -2178,10 +2178,10 @@ Resources:
         'Fn::GetAtt': GetOrganizationsByIdsDataSource.Name
       RequestMappingTemplate: |
         {
-           "version":"2017-02-28",
-           "operation":"Invoke",
-           "payload":{
-              "arguments":$util.toJson($context.source)
+           "version": "2017-02-28",
+           "operation": "Invoke",
+           "payload": {
+              "arguments": $util.toJson($context.source)
             }
         }
 
