@@ -352,18 +352,23 @@ type Mutation {
     # Создать канал.
     createChannel(input: CreateChannelInput!): CreateChannelOutput
         @aws_api_key
+    # Создать основную организацию.
     createOrganization(organizationName: String!): OrganizationOutput!
         @aws_api_key
+    # Создать отдел организации.
     createOrganizationDepartment(organizationName: String!, parentOrganizationId: String!): OrganizationOutput!
         @aws_api_key
     # Обновить информацию канала.
     updateChannel(input: UpdateChannelInput!): UpdateChannelOutput
         @aws_api_key
+    # Удалить организации по ids.
     deleteOrganizations(organizationsIds: [String!]!): DeleteOrganizationsOutput!
         @aws_api_key
+    # Восстановить удаленные организации по ids.
     restoreDeletedOrganizations(organizationsIds: [String!]!): RestoreDeletedOrganizationsOutput!
         @aws_api_key
-    updateOrganizationName(organizationName: String!): OrganizationOutput!
+    # Обновить название организации.
+    updateOrganizationName(organizationId: String!, organizationName: String!): OrganizationOutput!
         @aws_api_key
 }
 
@@ -513,16 +518,22 @@ type Query {
     # Получить список Facebook страниц, которыми владеет пользователь.
     getFacebookPages(userId: String!, shortLivedUserAccessToken: String!): GetFacebookPagesOutput!
         @aws_api_key
+    # Получить список всех архивированных отделов основной организации.
     getAllArchivedOrganizationDepartments(rootOrganizationId: String!): [OrganizationOutput!]!
         @aws_api_key
+    # Получить список всех отделов основной организации.
     getAllOrganizationDepartments(rootOrganizationId: String!): [OrganizationOutput!]!
         @aws_api_key
+    # Полуить список архивированных отделов определенной организации.
     getArchivedOrganizationDepartmentsById(parentOrganizationId: String!): [OrganizationOutput!]!
         @aws_api_key
+    # Получить организацию по Id.
     getOrganizationById(organizationId: String!): OrganizationOutput!
         @aws_api_key
+    # Получить список отделов определенной организации.
     getOrganizationDepartmentsById(parentOrganizationId: String!): [OrganizationOutput!]!
         @aws_api_key
+    # Полуить список организаций по ids.
     getOrganizationsByIds(organizationsIds: [String!]!): [OrganizationOutput!]!
         @aws_api_key
     # Получить канал по id.
