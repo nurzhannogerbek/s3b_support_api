@@ -1301,43 +1301,7 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetLocationDataSource.Name
-  GetLocationCountryRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetLocationCountryFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetLocationCountryARN
-  GetLocationCountryDataSource:
-    Type: 'AWS::AppSync::DataSource'
-    Properties:
-      ApiId:
-        'Fn::GetAtt': GraphQLApi.ApiId
-      Name:
-        'Fn::Sub': '${EnvironmentName}GetLocationCountry'
-      Type: AWS_LAMBDA
-      LambdaConfig:
-        LambdaFunctionArn:
-          'Fn::ImportValue':
-            'Fn::Sub': >-
-              ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetLocationCountryARN
-      ServiceRoleArn:
-        'Fn::GetAtt': GetLocationCountryRole.Arn
-  GetLocationCountryResolver:
+  GetLocationCountryByIdResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
       ApiId:
@@ -1345,7 +1309,15 @@ Resources:
       FieldName: country
       TypeName: GetLocationByIdOutput
       DataSourceName:
-        'Fn::GetAtt': GetLocationCountryDataSource.Name
+        'Fn::GetAtt': GetCountryDataSource.Name
+      RequestMappingTemplate: |
+        {
+           "version": "2017-02-28",
+           "operation": "Invoke",
+           "payload": {
+              "arguments": $util.toJson($context.source)
+           }
+        }
   RestoreDeletedLocationsRole:
     Type: 'AWS::IAM::Role'
     Properties:
