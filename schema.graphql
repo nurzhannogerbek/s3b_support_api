@@ -247,7 +247,7 @@ input CreateChannelInput {
     channelName: String!
     channelDescription: String
     channelTypeId: String!
-    channelTechnicalId: String!
+    channelTechnicalId: String
     channelStatusId: String!
     organizationsIds: [String!]!
 }
