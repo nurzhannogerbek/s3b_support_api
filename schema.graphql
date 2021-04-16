@@ -153,7 +153,6 @@ type GetGendersOutput @aws_api_key {
 }
 
 type GetLocationByIdOutput @aws_api_key {
-    country: GetCountryByIdOutput!
     countryId: String!
     locationId: String!
     locationAlpha3Code: String!
