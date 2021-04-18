@@ -8,13 +8,13 @@ input CreateCountryInput {
 }
 
 type CreateCountryOutput @aws_api_key {
-    countryId: String!
-    countryShortName: String!
-    countryOfficialName: String!
-    countryAlpha2Code: String!
-    countryAlpha3Code: String!
-    countryNumericCode: Int!
-    countryCodeTopLevelDomain: String!
+    countryId: String
+    countryShortName: String
+    countryOfficialName: String
+    countryAlpha2Code: String
+    countryAlpha3Code: String
+    countryNumericCode: Int
+    countryCodeTopLevelDomain: String
 }
 
 input CreateCurrencyInput {
@@ -24,21 +24,21 @@ input CreateCurrencyInput {
 }
 
 type CreateCurrencyOutput @aws_api_key {
-    currencyId: String!
-    currencyOfficialName: String!
-    currencyAlphabeticCode: String!
-    currencyNumericCode: Int!
+    currencyId: String
+    currencyOfficialName: String
+    currencyAlphabeticCode: String
+    currencyNumericCode: Int
 }
 
 input CreateGenderInput {
-    genderTechnicalName: String!
-    genderPublicName: String!
+    genderTechnicalName: String
+    genderPublicName: String
 }
 
 type CreateGenderOutput @aws_api_key {
-    genderId: String!
-    genderTechnicalName: String!
-    genderPublicName: String!
+    genderId: String
+    genderTechnicalName: String
+    genderPublicName: String
 }
 
 input CreateLocationInput {
@@ -50,12 +50,12 @@ input CreateLocationInput {
 }
 
 type CreateLocationOutput @aws_api_key {
-    country: GetCountryByIdOutput!
-    locationId: String!
-    locationAlpha3Code: String!
-    locationName: String!
-    locationAdministrativeDivisionCode: String!
-    locationCoordinates: String!
+    country: GetCountryByIdOutput
+    locationId: String
+    locationAlpha3Code: String
+    locationName: String
+    locationAdministrativeDivisionCode: String
+    locationCoordinates: String
 }
 
 input DeleteCountriesInput {
@@ -63,8 +63,8 @@ input DeleteCountriesInput {
 }
 
 type DeleteCountriesOutput @aws_api_key {
-    countriesIds: [String!]!
-    deleted: Boolean!
+    countriesIds: [String]
+    deleted: Boolean
 }
 
 input DeleteCurrenciesInput {
@@ -72,8 +72,8 @@ input DeleteCurrenciesInput {
 }
 
 type DeleteCurrenciesOutput @aws_api_key {
-    currenciesIds: [String!]!
-    deleted: Boolean!
+    currenciesIds: [String]
+    deleted: Boolean
 }
 
 input DeleteGenderInput {
@@ -81,8 +81,8 @@ input DeleteGenderInput {
 }
 
 type DeleteGenderOutput @aws_api_key {
-    gendersIds: [String!]!
-    deleted: Boolean!
+    gendersIds: [String]
+    deleted: Boolean
 }
 
 input DeleteLocationInput {
@@ -90,85 +90,85 @@ input DeleteLocationInput {
 }
 
 type DeleteLocationOutput @aws_api_key {
-    locationsIds: [String!]!
-    deleted: Boolean!
+    locationsIds: [String]
+    deleted: Boolean
 }
 
 type GetArchivedCountriesOutput @aws_api_key {
-    archivedCountries: [GetCountryByIdOutput!]
-    pageInformation: PageInformation!
+    archivedCountries: [GetCountryByIdOutput]
+    pageInformation: PageInformation
 }
 
 type GetArchivedCurrenciesOutput @aws_api_key {
-    archivedCurrencies: [GetCurrencyByIdOutput!]
-    pageInformation: PageInformation!
+    archivedCurrencies: [GetCurrencyByIdOutput]
+    pageInformation: PageInformation
 }
 
 type GetArchivedGendersOutput @aws_api_key {
-    archivedGenders: [GetGenderByIdOutput!]
-    pageInformation: PageInformation!
+    archivedGenders: [GetGenderByIdOutput]
+    pageInformation: PageInformation
 }
 
 type GetArchivedLocationsOutput @aws_api_key {
-    archivedLocations: [GetLocationByIdOutput!]
-    pageInformation: PageInformation!
+    archivedLocations: [GetLocationByIdOutput]
+    pageInformation: PageInformation
 }
 
 type GetCountriesOutput @aws_api_key {
-    countries: [GetCountryByIdOutput!]
-    pageInformation: PageInformation!
+    countries: [GetCountryByIdOutput]
+    pageInformation: PageInformation
 }
 
 type GetCountryByIdOutput @aws_api_key {
-    countryId: String!
-    countryShortName: String!
-    countryOfficialName: String!
-    countryAlpha2Code: String!
-    countryAlpha3Code: String!
-    countryNumericCode: Int!
-    countryCodeTopLevelDomain: String!
+    countryId: String
+    countryShortName: String
+    countryOfficialName: String
+    countryAlpha2Code: String
+    countryAlpha3Code: String
+    countryNumericCode: Int
+    countryCodeTopLevelDomain: String
 }
 
 type GetCurrenciesOutput @aws_api_key {
-    currencies: [GetCurrencyByIdOutput!]
-    pageInformation: PageInformation!
+    currencies: [GetCurrencyByIdOutput]
+    pageInformation: PageInformation
 }
 
 type GetCurrencyByIdOutput @aws_api_key {
-    currencyId: String!
-    currencyOfficialName: String!
-    currencyAlphabeticCode: String!
-    currencyNumericCode: Int!
+    currencyId: String
+    currencyOfficialName: String
+    currencyAlphabeticCode: String
+    currencyNumericCode: Int
 }
 
 type GetGenderByIdOutput @aws_api_key {
-    genderId: String!
-    genderTechnicalName: String!
-    genderPublicName: String!
+    genderId: String
+    genderTechnicalName: String
+    genderPublicName: String
 }
 
 type GetGendersOutput @aws_api_key {
-    genders: [GetGenderByIdOutput!]
-    pageInformation: PageInformation!
+    genders: [GetGenderByIdOutput]
+    pageInformation: PageInformation
 }
 
 type GetLocationByIdOutput @aws_api_key {
-    countryId: String!
-    locationId: String!
-    locationAlpha3Code: String!
-    locationName: String!
-    locationAdministrativeDivisionCode: String!
-    locationCoordinates: String!
+    countryId: String
+    locationId: String
+    locationAlpha3Code: String
+    locationName: String
+    locationAdministrativeDivisionCode: String
+    locationCoordinates: String
 }
 
 type GetLocationsOutput @aws_api_key {
-    locations: [GetLocationByIdOutput!]
-    pageInformation: PageInformation!
+    locations: [GetLocationByIdOutput]
+    pageInformation: PageInformation
 }
 
 type GetLocationsByCountryIdOutput @aws_api_key {
-    country: GetCountryByIdOutput!
-    locationsByCountryId: GetLocationsOutput!
+    country: GetCountryByIdOutput
+    locationsByCountryId: GetLocationsOutput
 }
 
 input CreateOrganizationSettingsInput {
@@ -183,7 +183,7 @@ input CreateOrganizationSettingsInput {
 }
 
 type CreateOrganizationSettingsOutput {
-    organizationId: String!
+    organizationId: String
     countryId: String
     country: GetCountryByIdOutput
     locationId: String
@@ -191,7 +191,7 @@ type CreateOrganizationSettingsOutput {
     organizationSettingAddress: String
     organizationSettingPostalCode: String
     organizationSettingWorkTime: String
-    organizationSettingPrivacy: String!
+    organizationSettingPrivacy: String
     timezoneId: String
     timezone: GetTimezoneByIdOutput
 }
@@ -208,7 +208,7 @@ input UpdateOrganizationSettingsInput {
 }
 
 type UpdateOrganizationSettingsOutput @aws_api_key {
-    organizationId: String!
+    organizationId: String
     countryId: String
     country: GetCountryByIdOutput
     locationId: String
@@ -216,19 +216,19 @@ type UpdateOrganizationSettingsOutput @aws_api_key {
     organizationSettingAddress: String
     organizationSettingPostalCode: String
     organizationSettingWorkTime: String
-    organizationSettingPrivacy: String!
+    organizationSettingPrivacy: String
     timezoneId: String
     timezone: GetTimezoneByIdOutput
 }
 
 type DeleteOrganizationSettingsOutput @aws_api_key {
-    organizationId: String!
-    deleted: Boolean!
+    organizationId: String
+    deleted: Boolean
 }
 
 type RestoreDeletedOrganizationSettingsOutput @aws_api_key {
-    organizationId: String!
-    restored: Boolean!
+    organizationId: String
+    restored: Boolean
 }
 
 type ChannelStatusOutput @aws_api_key {
@@ -290,85 +290,85 @@ type UpdateChannelOutput @aws_api_key {
 
 type Mutation {
     # Создать локацию.
-    createLocation(input: CreateLocationInput!): CreateLocationOutput!
+    createLocation(input: CreateLocationInput!): CreateLocationOutput
         @aws_api_key
     # Обновить информацию локации.
-    updateLocation(input: UpdateLocationInput!): UpdateLocationOutput!
+    updateLocation(input: UpdateLocationInput!): UpdateLocationOutput
         @aws_api_key
     # Удалить одну/несколько локацию(ий).
-    deleteLocations(input: DeleteLocationInput!): DeleteLocationOutput!
+    deleteLocations(input: DeleteLocationInput!): DeleteLocationOutput
         @aws_api_key
     # Восстановить одну/несколько локацию(ий).
-    restoreDeletedLocations(input: RestoreDeletedLocationsInput!): RestoreDeletedLocationsOutput!
+    restoreDeletedLocations(input: RestoreDeletedLocationsInput!): RestoreDeletedLocationsOutput
         @aws_api_key
     # Создать пол.
-    createGender(input: CreateGenderInput!): CreateGenderOutput!
+    createGender(input: CreateGenderInput!): CreateGenderOutput
         @aws_api_key
     # Обновить информацию пола.
-    updateGender(input: UpdateGenderInput!): UpdateGenderOutput!
+    updateGender(input: UpdateGenderInput!): UpdateGenderOutput
         @aws_api_key
     # Удалить один/несколько пол(ов).
-    deleteGenders(input: DeleteGenderInput!): DeleteGenderOutput!
+    deleteGenders(input: DeleteGenderInput!): DeleteGenderOutput
         @aws_api_key
     # Восстановить один/несколько пол(ов).
-    restoreDeletedGenders(input: RestoreDeletedGendersInput!): RestoreDeletedGendersOutput!
+    restoreDeletedGenders(input: RestoreDeletedGendersInput!): RestoreDeletedGendersOutput
         @aws_api_key
     # Создать валюту.
-    createCurrency(input: CreateCurrencyInput!): CreateCurrencyOutput!
+    createCurrency(input: CreateCurrencyInput!): CreateCurrencyOutput
         @aws_api_key
     # Обновить информацию валюты.
-    updateCurrency(input: UpdateCurrencyInput!): UpdateCurrencyOutput!
+    updateCurrency(input: UpdateCurrencyInput!): UpdateCurrencyOutput
         @aws_api_key
     # Удалить одну/несколько валюту(ют).
-    deleteCurrencies(input: DeleteCurrenciesInput!): DeleteCurrenciesOutput!
+    deleteCurrencies(input: DeleteCurrenciesInput!): DeleteCurrenciesOutput
         @aws_api_key
     # Восстановить одну/несколько валюту(ют).
-    restoreDeletedCurrencies(input: RestoreDeletedCurrenciesInput!): RestoreDeletedCurrenciesOutput!
+    restoreDeletedCurrencies(input: RestoreDeletedCurrenciesInput!): RestoreDeletedCurrenciesOutput
         @aws_api_key
     # Создать страну.
-    createCountry(input: CreateCountryInput!): CreateCountryOutput!
+    createCountry(input: CreateCountryInput!): CreateCountryOutput
         @aws_api_key
     # Обновить информацию страны.
-    updateCountry(input: UpdateCountryInput!): UpdateCountryOutput!
+    updateCountry(input: UpdateCountryInput!): UpdateCountryOutput
         @aws_api_key
     # Удалить одну/несколько страну(ан).
-    deleteCountries(input: DeleteCountriesInput!): DeleteCountriesOutput!
+    deleteCountries(input: DeleteCountriesInput!): DeleteCountriesOutput
         @aws_api_key
     # Восстановить одну/несколько страну(ан).
-    restoreDeletedCountries(input: RestoreDeletedCountriesInput!): RestoreDeletedCountriesOutput!
+    restoreDeletedCountries(input: RestoreDeletedCountriesInput!): RestoreDeletedCountriesOutput
         @aws_api_key
     # Создать настройки компании
-    createOrganizationSettings(input: CreateOrganizationSettingsInput!): CreateOrganizationSettingsOutput!
+    createOrganizationSettings(input: CreateOrganizationSettingsInput!): CreateOrganizationSettingsOutput
         @aws_api_key
     # Обновить настройки компании
-    updateOrganizationSettings(input: UpdateOrganizationSettingsInput!): UpdateOrganizationSettingsOutput!
+    updateOrganizationSettings(input: UpdateOrganizationSettingsInput!): UpdateOrganizationSettingsOutput
         @aws_api_key
     # Удалить настройки компании
-    deleteOrganizationSettings(organizationId: String!): DeleteOrganizationSettingsOutput!
+    deleteOrganizationSettings(organizationId: String!): DeleteOrganizationSettingsOutput
         @aws_api_key
     # Восстановить настройки компании
-    restoreDeletedOrganizationSettings(organizationId: String!): RestoreDeletedOrganizationSettingsOutput!
+    restoreDeletedOrganizationSettings(organizationId: String!): RestoreDeletedOrganizationSettingsOutput
         @aws_api_key
     # Создать канал.
     createChannel(input: CreateChannelInput!): CreateChannelOutput
         @aws_api_key
     # Создать основную организацию.
-    createOrganization(organizationName: String!): OrganizationOutput!
+    createOrganization(organizationName: String!): OrganizationOutput
         @aws_api_key
     # Создать отдел организации.
-    createOrganizationDepartment(organizationName: String!, parentOrganizationId: String!): OrganizationOutput!
+    createOrganizationDepartment(organizationName: String!, parentOrganizationId: String!): OrganizationOutput
         @aws_api_key
     # Обновить информацию канала.
     updateChannel(input: UpdateChannelInput!): UpdateChannelOutput
         @aws_api_key
     # Удалить организации по ids.
-    deleteOrganizations(organizationsIds: [String!]!): DeleteOrganizationsOutput!
+    deleteOrganizations(organizationsIds: [String!]!): DeleteOrganizationsOutput
         @aws_api_key
     # Восстановить удаленные организации по ids.
-    restoreDeletedOrganizations(organizationsIds: [String!]!): RestoreDeletedOrganizationsOutput!
+    restoreDeletedOrganizations(organizationsIds: [String!]!): RestoreDeletedOrganizationsOutput
         @aws_api_key
     # Обновить название организации.
-    updateOrganizationName(organizationId: String!, organizationName: String!): OrganizationOutput!
+    updateOrganizationName(organizationId: String!, organizationName: String!): OrganizationOutput
         @aws_api_key
 }
 
@@ -379,14 +379,14 @@ type PageInformation @aws_api_key {
 }
 
 type GetTimezoneByIdOutput @aws_api_key {
-    timezoneId: String!
-    countryAlpha2Code: String!
-    timezoneName: String!
-    utcOffset: String!
+    timezoneId: String
+    countryAlpha2Code: String
+    timezoneName: String
+    utcOffset: String
 }
 
 type GetOrganizationSettingsByIdOutput @aws_api_key {
-    organizationId: String!
+    organizationId: String
     countryId: String
     country: GetCountryByIdOutput
     locationId: String
@@ -394,19 +394,19 @@ type GetOrganizationSettingsByIdOutput @aws_api_key {
     organizationSettingAddress: String
     organizationSettingPostalCode: String
     organizationSettingWorkTime: String
-    organizationSettingPrivacy: String!
+    organizationSettingPrivacy: String
     timezoneId: String
     timezone: GetTimezoneByIdOutput
 }
 
 type DeleteOrganizationsOutput @aws_api_key {
-    organizationsIds: [String!]!
-    deleted: Boolean!
+    organizationsIds: [String]
+    deleted: Boolean
 }
 
 type RestoreDeletedOrganizationsOutput @aws_api_key {
-    organizationsIds: [String!]!
-    restored: Boolean!
+    organizationsIds: [String]
+    restored: Boolean
 }
 
 type GetFacebookPagesOutput @aws_api_key {
@@ -465,76 +465,76 @@ type GetChannelsOutput @aws_api_key {
 
 type Query {
     # Получить временную зону по id. Включает в себя архивированные временые зоны.
-    getTimezoneById(timezoneId: String!): GetTimezoneByIdOutput!
+    getTimezoneById(timezoneId: String!): GetTimezoneByIdOutput
         @aws_api_key
     # Получить список часовых поясов зон страны.
-    getTimezones(countryAlpha2Code: String!): [GetTimezoneByIdOutput!]!
+    getTimezones(countryAlpha2Code: String!): [GetTimezoneByIdOutput]
         @aws_api_key
     # Получить список часовых поясов зон страны.
-    searchTimezones(search: String!): [GetTimezoneByIdOutput!]!
+    searchTimezones(search: String!): [GetTimezoneByIdOutput]
         @aws_api_key
     # Получить локацию по id. Включает в себя архивированные локации.
-    getLocationById(locationId: String!): GetLocationByIdOutput!
+    getLocationById(locationId: String!): GetLocationByIdOutput
         @aws_api_key
     # Получить список локаций.
-    getLocations(itemsCountPerPage: Int!, currentPageNumber: Int!): GetLocationsOutput!
+    getLocations(itemsCountPerPage: Int!, currentPageNumber: Int!): GetLocationsOutput
         @aws_api_key
     # Получить список локаций страны.
-    getLocationsByCountryId(countryId: String!, itemsCountPerPage: Int!, currentPageNumber: Int!): GetLocationsByCountryIdOutput!
+    getLocationsByCountryId(countryId: String!, itemsCountPerPage: Int!, currentPageNumber: Int!): GetLocationsByCountryIdOutput
         @aws_api_key
     # Получить пол по id. Включает в себя архивированные полы.
-    getGenderById(genderId: String!): GetGenderByIdOutput!
+    getGenderById(genderId: String!): GetGenderByIdOutput
         @aws_api_key
     # Получить список полов.
-    getGenders(itemsCountPerPage: Int!, currentPageNumber: Int!): GetGendersOutput!
+    getGenders(itemsCountPerPage: Int!, currentPageNumber: Int!): GetGendersOutput
         @aws_api_key
     # Получить валюту по id. Включает в себя архивированные валюты.
-    getCurrencyById(currencyId: String!): GetCurrencyByIdOutput!
+    getCurrencyById(currencyId: String!): GetCurrencyByIdOutput
         @aws_api_key
     # Получить список валют.
-    getCurrencies(itemsCountPerPage: Int!, currentPageNumber: Int!): GetCurrenciesOutput!
+    getCurrencies(itemsCountPerPage: Int!, currentPageNumber: Int!): GetCurrenciesOutput
         @aws_api_key
     # Получить страну по id. Включает в себя архивированные страны.
-    getCountryById(countryId: String!): GetCountryByIdOutput!
+    getCountryById(countryId: String!): GetCountryByIdOutput
         @aws_api_key
     # Получить список стран.
-    getCountries(itemsCountPerPage: Int!, currentPageNumber: Int!): GetCountriesOutput!
+    getCountries(itemsCountPerPage: Int!, currentPageNumber: Int!): GetCountriesOutput
         @aws_api_key
     # Получить список архивированных локаций.
-    getArchivedLocations(itemsCountPerPage: Int!, currentPageNumber: Int!): GetArchivedLocationsOutput!
+    getArchivedLocations(itemsCountPerPage: Int!, currentPageNumber: Int!): GetArchivedLocationsOutput
         @aws_api_key
     # Получиить список архивированных полов.
-    getArchivedGenders(itemsCountPerPage: Int!, currentPageNumber: Int!): GetArchivedGendersOutput!
+    getArchivedGenders(itemsCountPerPage: Int!, currentPageNumber: Int!): GetArchivedGendersOutput
         @aws_api_key
     # Получить список архивированных валют.
-    getArchivedCurrencies(itemsCountPerPage: Int!, currentPageNumber: Int!): GetArchivedCurrenciesOutput!
+    getArchivedCurrencies(itemsCountPerPage: Int!, currentPageNumber: Int!): GetArchivedCurrenciesOutput
         @aws_api_key
     # Получить список архивированных стран.
-    getArchivedCountries(itemsCountPerPage: Int!, currentPageNumber: Int!): GetArchivedCountriesOutput!
+    getArchivedCountries(itemsCountPerPage: Int!, currentPageNumber: Int!): GetArchivedCountriesOutput
         @aws_api_key
     # Получить настройки компании по Id. Включает в себя архивированные компании.
-    getOrganizationSettingsById(organizationId: String!): GetOrganizationSettingsByIdOutput!
+    getOrganizationSettingsById(organizationId: String!): GetOrganizationSettingsByIdOutput
         @aws_api_key
     # Получить список Facebook страниц, которыми владеет пользователь.
-    getFacebookPages(userId: String!, shortLivedUserAccessToken: String!): GetFacebookPagesOutput!
+    getFacebookPages(userId: String!, shortLivedUserAccessToken: String!): GetFacebookPagesOutput
         @aws_api_key
     # Получить список всех архивированных отделов основной организации.
-    getAllArchivedOrganizationDepartments(rootOrganizationId: String!): [OrganizationOutput!]!
+    getAllArchivedOrganizationDepartments(rootOrganizationId: String!): [OrganizationOutput]
         @aws_api_key
     # Получить список всех отделов основной организации.
-    getAllOrganizationDepartments(rootOrganizationId: String!): [OrganizationOutput!]!
+    getAllOrganizationDepartments(rootOrganizationId: String!): [OrganizationOutput]
         @aws_api_key
     # Полуить список архивированных отделов определенной организации.
-    getArchivedOrganizationDepartmentsById(parentOrganizationId: String!): [OrganizationOutput!]!
+    getArchivedOrganizationDepartmentsById(parentOrganizationId: String!): [OrganizationOutput]
         @aws_api_key
     # Получить организацию по Id.
-    getOrganizationById(organizationId: String!): OrganizationOutput!
+    getOrganizationById(organizationId: String!): OrganizationOutput
         @aws_api_key
     # Получить список отделов определенной организации.
-    getOrganizationDepartmentsById(parentOrganizationId: String!): [OrganizationOutput!]!
+    getOrganizationDepartmentsById(parentOrganizationId: String!): [OrganizationOutput]
         @aws_api_key
     # Полуить список организаций по ids.
-    getOrganizationsByIds(organizationsIds: [String!]!): [OrganizationOutput!]!
+    getOrganizationsByIds(organizationsIds: [String!]!): [OrganizationOutput]
         @aws_api_key
     # Получить канал по id.
     getChannel(channelId: String!): GetChannelOutput
@@ -549,16 +549,16 @@ input RestoreDeletedCountriesInput {
 }
 
 type RestoreDeletedCountriesOutput @aws_api_key {
-    countriesIds: [String!]!
+    countriesIds: [String]
     restored: Boolean!
 }
 
 input RestoreDeletedCurrenciesInput {
-    currenciesIds: [String!]!
+    currenciesIds: [String]
 }
 
 type RestoreDeletedCurrenciesOutput @aws_api_key {
-    currenciesIds: [String!]!
+    currenciesIds: [String]
     restored: Boolean!
 }
 
@@ -567,8 +567,8 @@ input RestoreDeletedGendersInput {
 }
 
 type RestoreDeletedGendersOutput @aws_api_key {
-    gendersIds: [String!]!
-    restored: Boolean!
+    gendersIds: [String]
+    restored: Boolean
 }
 
 input RestoreDeletedLocationsInput {
@@ -576,8 +576,8 @@ input RestoreDeletedLocationsInput {
 }
 
 type RestoreDeletedLocationsOutput @aws_api_key {
-    locationsIds: [String!]!
-    restored: Boolean!
+    locationsIds: [String]
+    restored: Boolean
 }
 
 input UpdateCountryInput {
@@ -591,13 +591,13 @@ input UpdateCountryInput {
 }
 
 type UpdateCountryOutput @aws_api_key {
-    countryId: String!
-    countryShortName: String!
-    countryOfficialName: String!
-    countryAlpha2Code: String!
-    countryAlpha3Code: String!
-    countryNumericCode: Int!
-    countryCodeTopLevelDomain: String!
+    countryId: String
+    countryShortName: String
+    countryOfficialName: String
+    countryAlpha2Code: String
+    countryAlpha3Code: String
+    countryNumericCode: Int
+    countryCodeTopLevelDomain: String
 }
 
 input UpdateCurrencyInput {
@@ -608,10 +608,10 @@ input UpdateCurrencyInput {
 }
 
 type UpdateCurrencyOutput @aws_api_key {
-    currencyId: String!
-    currencyOfficialName: String!
-    currencyAlphabeticCode: String!
-    currencyNumericCode: Int!
+    currencyId: String
+    currencyOfficialName: String
+    currencyAlphabeticCode: String
+    currencyNumericCode: Int
 }
 
 input UpdateGenderInput {
@@ -621,9 +621,9 @@ input UpdateGenderInput {
 }
 
 type UpdateGenderOutput @aws_api_key {
-    genderId: String!
-    genderTechnicalName: String!
-    genderPublicName: String!
+    genderId: String
+    genderTechnicalName: String
+    genderPublicName: String
 }
 
 input UpdateLocationInput {
@@ -636,26 +636,26 @@ input UpdateLocationInput {
 }
 
 type UpdateLocationOutput @aws_api_key {
-    country: GetCountryByIdOutput!
-    locationId: String!
-    locationAlpha3Code: String!
-    locationName: String!
-    locationAdministrativeDivisionCode: String!
-    locationCoordinates: String!
+    country: GetCountryByIdOutput
+    locationId: String
+    locationAlpha3Code: String
+    locationName: String
+    locationAdministrativeDivisionCode: String
+    locationCoordinates: String
 }
 
 type OrganizationOutput @aws_api_key {
-    organizationId: String!
-    organizationName: String!
-    parentOrganizationId: String!
-    parentOrganizationName: String!
-    rootOrganizationId: String!
-    rootOrganizationName: String!
-    organizationLevel: Int!
-    parentOrganizationLevel: Int!
-    rootOrganizationLevel: Int!
-    treeOrganizationId: String!
-    treeOrganizationName: String!
+    organizationId: String
+    organizationName: String
+    parentOrganizationId: String
+    parentOrganizationName: String
+    rootOrganizationId: String
+    rootOrganizationName: String
+    organizationLevel: Int
+    parentOrganizationLevel: Int
+    rootOrganizationLevel: Int
+    treeOrganizationId: String
+    treeOrganizationName: String
 }
 
 schema {
