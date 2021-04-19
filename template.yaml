@@ -2697,3 +2697,319 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': UpdateOrganizationNameDataSource.Name
+
+  CreateChannelTypeRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: CreateChannelTypeFunctionAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'lambda:InvokeFunction'
+                Resource:
+                  'Fn::ImportValue':
+                    'Fn::Sub': >-
+                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}CreateChannelTypeARN
+  CreateChannelTypeDataSource:
+    Type: 'AWS::AppSync::DataSource'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      Name:
+        'Fn::Sub': '${EnvironmentName}CreateChannelType'
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn:
+          'Fn::ImportValue':
+            'Fn::Sub': >-
+              ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}CreateChannelTypeARN
+      ServiceRoleArn:
+        'Fn::GetAtt': CreateChannelTypeRole.Arn
+  CreateChannelTypeResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: createChannelType
+      TypeName: Mutation
+      DataSourceName:
+        'Fn::GetAtt': CreateChannelTypeDataSource.Name
+  DeleteChannelTypesRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: DeleteChannelTypesFunctionAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'lambda:InvokeFunction'
+                Resource:
+                  'Fn::ImportValue':
+                    'Fn::Sub': >-
+                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}DeleteChannelTypesARN
+  DeleteChannelTypesDataSource:
+    Type: 'AWS::AppSync::DataSource'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      Name:
+        'Fn::Sub': '${EnvironmentName}DeleteChannelTypes'
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn:
+          'Fn::ImportValue':
+            'Fn::Sub': >-
+              ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}DeleteChannelTypesARN
+      ServiceRoleArn:
+        'Fn::GetAtt': DeleteChannelTypesRole.Arn
+  DeleteChannelTypesResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: deleteChannelTypes
+      TypeName: Mutation
+      DataSourceName:
+        'Fn::GetAtt': DeleteChannelTypesDataSource.Name
+  GetChannelTypesRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: GetChannelTypesFunctionAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'lambda:InvokeFunction'
+                Resource:
+                  'Fn::ImportValue':
+                    'Fn::Sub': >-
+                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetChannelTypesARN
+  GetChannelTypesDataSource:
+    Type: 'AWS::AppSync::DataSource'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      Name:
+        'Fn::Sub': '${EnvironmentName}GetChannelTypes'
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn:
+          'Fn::ImportValue':
+            'Fn::Sub': >-
+              ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetChannelTypesARN
+      ServiceRoleArn:
+        'Fn::GetAtt': GetChannelTypesRole.Arn
+  GetChannelTypesResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: getChannelTypes
+      TypeName: Query
+      DataSourceName:
+        'Fn::GetAtt': GetChannelTypesDataSource.Name
+  GetArchivedChannelTypesRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: GetArchivedChannelTypesFunctionAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'lambda:InvokeFunction'
+                Resource:
+                  'Fn::ImportValue':
+                    'Fn::Sub': >-
+                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetArchivedChannelTypesARN
+  GetArchivedChannelTypesDataSource:
+    Type: 'AWS::AppSync::DataSource'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      Name:
+        'Fn::Sub': '${EnvironmentName}GetArchivedChannelTypes'
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn:
+          'Fn::ImportValue':
+            'Fn::Sub': >-
+              ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetArchivedChannelTypesARN
+      ServiceRoleArn:
+        'Fn::GetAtt': GetArchivedChannelTypesRole.Arn
+  GetArchivedChannelTypesResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: getArchivedChannelTypes
+      TypeName: Query
+      DataSourceName:
+        'Fn::GetAtt': GetArchivedChannelTypesDataSource.Name
+  GetChannelTypeRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: GetChannelTypeFunctionAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'lambda:InvokeFunction'
+                Resource:
+                  'Fn::ImportValue':
+                    'Fn::Sub': >-
+                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetChannelTypeARN
+  GetChannelTypeDataSource:
+    Type: 'AWS::AppSync::DataSource'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      Name:
+        'Fn::Sub': '${EnvironmentName}GetChannelType'
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn:
+          'Fn::ImportValue':
+            'Fn::Sub': >-
+              ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetChannelTypeARN
+      ServiceRoleArn:
+        'Fn::GetAtt': GetChannelTypeRole.Arn
+  GetChannelTypeResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: getChannelTypeById
+      TypeName: Query
+      DataSourceName:
+        'Fn::GetAtt': GetChannelTypeDataSource.Name
+  RestoreDeletedChannelTypesRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: RestoreDeletedChannelTypesFunctionAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'lambda:InvokeFunction'
+                Resource:
+                  'Fn::ImportValue':
+                    'Fn::Sub': >-
+                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}RestoreDeletedChannelTypesARN
+  RestoreDeletedChannelTypesDataSource:
+    Type: 'AWS::AppSync::DataSource'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      Name:
+        'Fn::Sub': '${EnvironmentName}RestoreDeletedChannelTypes'
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn:
+          'Fn::ImportValue':
+            'Fn::Sub': >-
+              ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}RestoreDeletedChannelTypesARN
+      ServiceRoleArn:
+        'Fn::GetAtt': RestoreDeletedChannelTypesRole.Arn
+  RestoreDeletedChannelTypesResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: restoreDeletedChannelTypes
+      TypeName: Mutation
+      DataSourceName:
+        'Fn::GetAtt': RestoreDeletedChannelTypesDataSource.Name
+  UpdateChannelTypeRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: appsync.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Policies:
+        - PolicyName: UpdateChannelTypeFunctionAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: 'lambda:InvokeFunction'
+                Resource:
+                  'Fn::ImportValue':
+                    'Fn::Sub': >-
+                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}UpdateChannelTypeARN
+  UpdateChannelTypeDataSource:
+    Type: 'AWS::AppSync::DataSource'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      Name:
+        'Fn::Sub': '${EnvironmentName}UpdateChannelType'
+      Type: AWS_LAMBDA
+      LambdaConfig:
+        LambdaFunctionArn:
+          'Fn::ImportValue':
+            'Fn::Sub': >-
+              ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}UpdateChannelTypeARN
+      ServiceRoleArn:
+        'Fn::GetAtt': UpdateChannelTypeRole.Arn
+  UpdateChannelTypeResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: updateChannelType
+      TypeName: Mutation
+      DataSourceName:
+        'Fn::GetAtt': UpdateChannelTypeDataSource.Name

@@ -370,6 +370,58 @@ type Mutation {
     # Обновить название организации.
     updateOrganizationName(organizationId: String!, organizationName: String!): OrganizationOutput
         @aws_api_key
+    createChannelType(input: CreateChannelTypeInput!): CreateChannelTypeOutput
+        @aws_api_key
+    # Обновить информацию страны.
+    updateChannelType(input: UpdateChannelTypeInput!): UpdateChannelTypeOutput
+        @aws_api_key
+    # Удалить одну/несколько страну(ан).
+    deleteChannelTypes(input: DeleteChannelTypesInput!): DeleteChannelTypesOutput
+        @aws_api_key
+    # Восстановить одну/несколько страну(ан).
+    restoreDeletedChannelTypes(input: RestoreDeletedChannelTypesInput!): RestoreDeletedChannelTypesOutput
+        @aws_api_key
+}
+
+input CreateChannelTypeInput {
+    channelTypeName: String!
+    channelTypeDescription: String!
+}
+
+type CreateChannelTypeOutput @aws_api_key {
+    channelTypeId: String
+    channelTypeName: String!
+    channelTypeDescription: String!
+}
+
+input UpdateChannelTypeInput {
+    channelTypeId: String
+    channelTypeName: String!
+    channelTypeDescription: String!
+}
+
+type UpdateChannelTypeOutput @aws_api_key {
+    channelTypeId: String
+    channelTypeName: String!
+    channelTypeDescription: String!
+}
+
+input DeleteChannelTypesInput {
+    channelTypesIds: [String!]!
+}
+
+type DeleteChannelTypesOutput @aws_api_key {
+    channelTypesIds: [String]
+    deleted: Boolean
+}
+
+input RestoreDeletedChannelTypesInput {
+    channelTypesIds: [String!]!
+}
+
+type RestoreDeletedChannelTypesOutput @aws_api_key {
+    channelTypesIds: [String]
+    restored: Boolean
 }
 
 type PageInformation @aws_api_key {
@@ -542,6 +594,18 @@ type Query {
     # Получить все каналы определенной организации.
     getChannels(organizationId: String!): [GetChannelsOutput]
         @aws_api_key
+    getChannelTypeById(channelTypeId: String!): GetChannelTypeById
+        @aws_api_key
+    getChannelTypes: [GetChannelTypeById]
+        @aws_api_key
+    getArchivedChannelTypes: [GetChannelTypeById]
+        @aws_api_key
+}
+
+type GetChannelTypeById @aws_api_key {
+    channelTypeId: String
+    channelTypeName: String
+    channelTypeDescription: String
 }
 
 input RestoreDeletedCountriesInput {
