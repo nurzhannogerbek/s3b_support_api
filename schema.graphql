@@ -370,16 +370,29 @@ type Mutation {
     # Обновить название организации.
     updateOrganizationName(organizationId: String!, organizationName: String!): OrganizationOutput
         @aws_api_key
+    # Создать новый тип канала.
     createChannelType(input: CreateChannelTypeInput!): CreateChannelTypeOutput
         @aws_api_key
-    # Обновить информацию страны.
+    # Обновить информацию типа канала.
     updateChannelType(input: UpdateChannelTypeInput!): UpdateChannelTypeOutput
         @aws_api_key
-    # Удалить одну/несколько страну(ан).
+    # Удалить один/несколько тип(ов) канала.
     deleteChannelTypes(input: DeleteChannelTypesInput!): DeleteChannelTypesOutput
         @aws_api_key
-    # Восстановить одну/несколько страну(ан).
+    # Восстановить однин/несколько тип(ов) канала.
     restoreDeletedChannelTypes(input: RestoreDeletedChannelTypesInput!): RestoreDeletedChannelTypesOutput
+        @aws_api_key
+    # Создать новый статус канала.
+    createChannelStatus(input: CreateChannelStatusInput!): CreateChannelStatusOutput
+        @aws_api_key
+    # Обновить информацию статуса канала.
+    updateChannelStatus(input: UpdateChannelStatusInput!): UpdateChannelStatusOutput
+        @aws_api_key
+    # Удалить один/несколько статус(ов) канала.
+    deleteChannelStatuses(input: DeleteChannelStatusesInput!): DeleteChannelStatusesOutput
+        @aws_api_key
+    # Восстановить один/несколько статус(ов) канала.
+    restoreDeletedChannelStatuses(input: RestoreDeletedChannelStatusesInput!): RestoreDeletedChannelStatusesOutput
         @aws_api_key
 }
 
@@ -423,6 +436,48 @@ type RestoreDeletedChannelTypesOutput @aws_api_key {
     channelTypesIds: [String]
     restored: Boolean
 }
+
+input CreateChannelStatusInput {
+    channelStatusName: String!
+    channelStatusDescription: String!
+}
+
+type CreateChannelStatusOutput @aws_api_key {
+    channelStatusId: String
+    channelStatusName: String!
+    channelStatusDescription: String!
+}
+
+input UpdateChannelStatusInput {
+    channelStatusId: String
+    channelStatusName: String!
+    channelStatusDescription: String!
+}
+
+type UpdateChannelStatusOutput @aws_api_key {
+    channelStatusId: String
+    channelStatusName: String!
+    channelStatusDescription: String!
+}
+
+input DeleteChannelStatusesInput {
+    channelStatusesIds: [String!]!
+}
+
+type DeleteChannelStatusesOutput @aws_api_key {
+    channelStatusesIds: [String]
+    deleted: Boolean
+}
+
+input RestoreDeletedChannelStatusesInput {
+    channelStatusesIds: [String!]!
+}
+
+type RestoreDeletedChannelStatusesOutput @aws_api_key {
+    channelStatusesIds: [String]
+    restored: Boolean
+}
+
 
 type PageInformation @aws_api_key {
     currentPageNumber: Int!
@@ -594,11 +649,23 @@ type Query {
     # Получить все каналы определенной организации.
     getChannels(organizationId: String!): [GetChannelsOutput]
         @aws_api_key
+    # Получить тип канала по id.
     getChannelTypeById(channelTypeId: String!): GetChannelTypeById
         @aws_api_key
+    # Получить все типы каналов.
     getChannelTypes: [GetChannelTypeById]
         @aws_api_key
+    # Получить все типы архивированных каналов.
     getArchivedChannelTypes: [GetChannelTypeById]
+        @aws_api_key
+    # Получить статус канала по id.
+    getChannelStatusById(channelStatusId: String!): GetChannelStatusById
+        @aws_api_key
+    # Получить все статусы каналов.
+    getChannelStatuses: [GetChannelStatusById]
+        @aws_api_key
+    # Получить все статусы архивированных каналов.
+    getArchivedChannelStatuses: [GetChannelStatusById]
         @aws_api_key
 }
 
@@ -606,6 +673,12 @@ type GetChannelTypeById @aws_api_key {
     channelTypeId: String
     channelTypeName: String
     channelTypeDescription: String
+}
+
+type GetChannelStatusById @aws_api_key {
+    channelStatusId: String
+    channelStatusName: String
+    channelStatusDescription: String
 }
 
 input RestoreDeletedCountriesInput {
