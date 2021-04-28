@@ -25,7 +25,7 @@ Conditions:
       - Ref: EnvironmentName
       - Prod
 Resources:
-  CloudWatchLogsRole:
+  CoreApiRole:
     Type: 'AWS::IAM::Role'
     Properties:
       AssumeRolePolicyDocument:
@@ -36,14 +36,12 @@ Resources:
               Service: appsync.amazonaws.com
             Action: 'sts:AssumeRole'
       Policies:
-        - PolicyName: CloudWatchLogsAccess
+        - PolicyName: CoreApiPolicy
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
               - Effect: Allow
-                Action:
-                  - 'logs:CreateLogStream'
-                  - 'logs:PutLogEvents'
+                Action: '*'
                 Resource: '*'
   GraphQLApi:
     Type: 'AWS::AppSync::GraphQLApi'
@@ -60,7 +58,7 @@ Resources:
         - AuthenticationType: API_KEY
       LogConfig:
         CloudWatchLogsRoleArn:
-          'Fn::GetAtt': CloudWatchLogsRole.Arn
+          'Fn::GetAtt': CoreApiRole.Arn
         ExcludeVerboseContent: false
         FieldLogLevel:
           'Fn::If':
@@ -83,27 +81,6 @@ Resources:
       Expires:
         Ref: ApiKeyExpires
 
-  CreateCountryRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: CreateCountryFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}CreateCountryARN
   CreateCountryDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -118,7 +95,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}CreateCountryARN
       ServiceRoleArn:
-        'Fn::GetAtt': CreateCountryRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   CreateCountryResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -128,27 +105,6 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': CreateCountryDataSource.Name
-  DeleteCountriesRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: DeleteCountriesFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}DeleteCountriesARN
   DeleteCountriesDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -163,7 +119,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}DeleteCountriesARN
       ServiceRoleArn:
-        'Fn::GetAtt': DeleteCountriesRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   DeleteCountriesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -173,27 +129,6 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': DeleteCountriesDataSource.Name
-  GetCountriesRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetCountriesFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetCountriesARN
   GetCountriesDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -208,7 +143,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetCountriesARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetCountriesRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetCountriesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -218,27 +153,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetCountriesDataSource.Name
-  GetArchivedCountriesRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetArchivedCountriesFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetArchivedCountriesARN
   GetArchivedCountriesDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -253,7 +167,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetArchivedCountriesARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetArchivedCountriesRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetArchivedCountriesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -263,27 +177,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetArchivedCountriesDataSource.Name
-  GetCountryRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetCountryFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetCountryARN
   GetCountryDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -298,7 +191,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetCountryARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetCountryRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetCountryResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -308,27 +201,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetCountryDataSource.Name
-  RestoreDeletedCountriesRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: RestoreDeletedCountriesFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}RestoreDeletedCountriesARN
   RestoreDeletedCountriesDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -343,7 +215,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}RestoreDeletedCountriesARN
       ServiceRoleArn:
-        'Fn::GetAtt': RestoreDeletedCountriesRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   RestoreDeletedCountriesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -353,27 +225,6 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': RestoreDeletedCountriesDataSource.Name
-  UpdateCountryRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: UpdateCountryFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}UpdateCountryARN
   UpdateCountryDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -388,7 +239,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}UpdateCountryARN
       ServiceRoleArn:
-        'Fn::GetAtt': UpdateCountryRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   UpdateCountryResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -399,27 +250,6 @@ Resources:
       DataSourceName:
         'Fn::GetAtt': UpdateCountryDataSource.Name
 
-  CreateCurrencyRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: CreateCurrencyFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}CreateCurrencyARN
   CreateCurrencyDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -434,7 +264,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}CreateCurrencyARN
       ServiceRoleArn:
-        'Fn::GetAtt': CreateCurrencyRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   CreateCurrencyResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -444,27 +274,6 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': CreateCurrencyDataSource.Name
-  DeleteCurrenciesRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: DeleteCurrenciesFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}DeleteCurrenciesARN
   DeleteCurrenciesDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -479,7 +288,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}DeleteCurrenciesARN
       ServiceRoleArn:
-        'Fn::GetAtt': DeleteCurrenciesRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   DeleteCurrenciesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -489,27 +298,6 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': DeleteCurrenciesDataSource.Name
-  GetCurrenciesRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetCurrenciesFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetCurrenciesARN
   GetCurrenciesDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -524,7 +312,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetCurrenciesARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetCurrenciesRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetCurrenciesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -534,27 +322,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetCurrenciesDataSource.Name
-  GetArchivedCurrenciesRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetArchivedCurrenciesFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetArchivedCurrenciesARN
   GetArchivedCurrenciesDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -569,7 +336,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetArchivedCurrenciesARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetArchivedCurrenciesRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetArchivedCurrenciesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -579,27 +346,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetArchivedCurrenciesDataSource.Name
-  GetCurrencyRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetCurrencyFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetCurrencyARN
   GetCurrencyDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -614,7 +360,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetCurrencyARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetCurrencyRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetCurrencyResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -624,27 +370,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetCurrencyDataSource.Name
-  RestoreDeletedCurrenciesRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: RestoreDeletedCurrenciesFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}RestoreDeletedCurrenciesARN
   RestoreDeletedCurrenciesDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -659,7 +384,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}RestoreDeletedCurrenciesARN
       ServiceRoleArn:
-        'Fn::GetAtt': RestoreDeletedCurrenciesRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   RestoreDeletedCurrenciesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -669,27 +394,6 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': RestoreDeletedCurrenciesDataSource.Name
-  UpdateCurrencyRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: UpdateCurrencyFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}UpdateCurrencyARN
   UpdateCurrencyDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -704,7 +408,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}UpdateCurrencyARN
       ServiceRoleArn:
-        'Fn::GetAtt': UpdateCurrencyRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   UpdateCurrencyResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -715,27 +419,6 @@ Resources:
       DataSourceName:
         'Fn::GetAtt': UpdateCurrencyDataSource.Name
 
-  CreateGenderRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: CreateGenderFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}CreateGenderARN
   CreateGenderDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -750,7 +433,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}CreateGenderARN
       ServiceRoleArn:
-        'Fn::GetAtt': CreateGenderRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   CreateGenderResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -760,27 +443,6 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': CreateGenderDataSource.Name
-  DeleteGendersRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: DeleteGendersFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}DeleteGendersARN
   DeleteGendersDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -795,7 +457,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}DeleteGendersARN
       ServiceRoleArn:
-        'Fn::GetAtt': DeleteGendersRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   DeleteGendersResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -805,27 +467,6 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': DeleteGendersDataSource.Name
-  GetGendersRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetGendersFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetGendersARN
   GetGendersDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -840,7 +481,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetGendersARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetGendersRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetGendersResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -850,27 +491,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetGendersDataSource.Name
-  GetArchivedGendersRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetArchivedGendersFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetArchivedGendersARN
   GetArchivedGendersDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -885,7 +505,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetArchivedGendersARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetArchivedGendersRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetArchivedGendersResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -895,27 +515,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetArchivedGendersDataSource.Name
-  GetGenderRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetGenderFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetGenderARN
   GetGenderDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -930,7 +529,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetGenderARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetGenderRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetGenderResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -940,27 +539,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetGenderDataSource.Name
-  RestoreDeletedGendersRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: RestoreDeletedGendersFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}RestoreDeletedGendersARN
   RestoreDeletedGendersDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -975,7 +553,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}RestoreDeletedGendersARN
       ServiceRoleArn:
-        'Fn::GetAtt': RestoreDeletedGendersRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   RestoreDeletedGendersResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -985,27 +563,6 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': RestoreDeletedGendersDataSource.Name
-  UpdateGenderRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: UpdateGenderFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}UpdateGenderARN
   UpdateGenderDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -1020,7 +577,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}UpdateGenderARN
       ServiceRoleArn:
-        'Fn::GetAtt': UpdateGenderRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   UpdateGenderResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1031,27 +588,6 @@ Resources:
       DataSourceName:
         'Fn::GetAtt': UpdateGenderDataSource.Name
 
-  CreateLocationRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: CreateLocationFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}CreateLocationARN
   CreateLocationDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -1066,7 +602,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}CreateLocationARN
       ServiceRoleArn:
-        'Fn::GetAtt': CreateLocationRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   CreateLocationResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1076,27 +612,6 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': CreateLocationDataSource.Name
-  DeleteLocationsRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: DeleteLocationsFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}DeleteLocationsARN
   DeleteLocationsDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -1111,7 +626,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}DeleteLocationsARN
       ServiceRoleArn:
-        'Fn::GetAtt': DeleteLocationsRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   DeleteLocationsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1121,27 +636,6 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': DeleteLocationsDataSource.Name
-  GetLocationsRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetLocationsFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetLocationsARN
   GetLocationsDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -1156,7 +650,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetLocationsARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetLocationsRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetLocationsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1166,27 +660,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetLocationsDataSource.Name
-  GetArchivedLocationsRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetArchivedLocationsFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetArchivedLocationsARN
   GetArchivedLocationsDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -1201,7 +674,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetArchivedLocationsARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetArchivedLocationsRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetArchivedLocationsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1211,27 +684,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetArchivedLocationsDataSource.Name
-  GetCountryLocationsRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetCountryLocationsFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetCountryLocationsARN
   GetCountryLocationsDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -1246,7 +698,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetCountryLocationsARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetCountryLocationsRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetCountryLocationsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1256,27 +708,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetCountryLocationsDataSource.Name
-  GetLocationRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetLocationFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetLocationARN
   GetLocationDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -1291,7 +722,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetLocationARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetLocationRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetLocationResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1301,27 +732,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetLocationDataSource.Name
-  RestoreDeletedLocationsRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: RestoreDeletedLocationsFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}RestoreDeletedLocationsARN
   RestoreDeletedLocationsDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -1336,7 +746,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}RestoreDeletedLocationsARN
       ServiceRoleArn:
-        'Fn::GetAtt': RestoreDeletedLocationsRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   RestoreDeletedLocationsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1346,27 +756,6 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': RestoreDeletedLocationsDataSource.Name
-  UpdateLocationRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: UpdateLocationFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}UpdateLocationARN
   UpdateLocationDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -1381,7 +770,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}UpdateLocationARN
       ServiceRoleArn:
-        'Fn::GetAtt': UpdateLocationRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   UpdateLocationResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1392,27 +781,6 @@ Resources:
       DataSourceName:
         'Fn::GetAtt': UpdateLocationDataSource.Name
 
-  GetTimezoneByIdRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetTimezoneByIdFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetTimezoneByIdARN
   GetTimezoneByIdDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -1427,7 +795,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetTimezoneByIdARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetTimezoneByIdRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetTimezoneByIdResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1437,27 +805,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetTimezoneByIdDataSource.Name
-  GetTimezonesRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetTimezonesFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetTimezonesARN
   GetTimezonesDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -1472,7 +819,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetTimezonesARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetTimezonesRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetTimezonesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1482,27 +829,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetTimezonesDataSource.Name
-  SearchTimezonesRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: SearchTimezonesFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}SearchTimezonesARN
   SearchTimezonesDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -1517,7 +843,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}SearchTimezonesARN
       ServiceRoleArn:
-        'Fn::GetAtt': SearchTimezonesRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   SearchTimezonesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1528,27 +854,6 @@ Resources:
       DataSourceName:
         'Fn::GetAtt': SearchTimezonesDataSource.Name
 
-  CreateOrganizationSettingsRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: CreateOrganizationSettingsFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}CreateOrganizationSettingsARN
   CreateOrganizationSettingsDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -1563,7 +868,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}CreateOrganizationSettingsARN
       ServiceRoleArn:
-        'Fn::GetAtt': CreateOrganizationSettingsRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   CreateOrganizationSettingsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1624,27 +929,6 @@ Resources:
               "arguments": $util.toJson($context.source)
            }
         }
-  DeleteOrganizationSettingsRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: DeleteOrganizationSettingsFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}DeleteOrganizationSettingsARN
   DeleteOrganizationSettingsDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -1659,7 +943,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}DeleteOrganizationSettingsARN
       ServiceRoleArn:
-        'Fn::GetAtt': DeleteOrganizationSettingsRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   DeleteOrganizationSettingsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1669,27 +953,6 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': DeleteOrganizationSettingsDataSource.Name
-  GetOrganizationSettingsRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetOrganizationSettingsFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetOrganizationSettingsARN
   GetOrganizationSettingsDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -1704,7 +967,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetOrganizationSettingsARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetOrganizationSettingsRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetOrganizationSettingsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1765,27 +1028,6 @@ Resources:
               "arguments": $util.toJson($context.source)
            }
         }
-  UpdateOrganizationSettingsRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: UpdateOrganizationSettingsFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}UpdateOrganizationSettingsARN
   UpdateOrganizationSettingsDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -1800,7 +1042,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}UpdateOrganizationSettingsARN
       ServiceRoleArn:
-        'Fn::GetAtt': UpdateOrganizationSettingsRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   UpdateOrganizationSettingsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1861,27 +1103,6 @@ Resources:
               "arguments": $util.toJson($context.source)
            }
         }
-  RestoreDeletedOrganizationSettingsRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: RestoreDeletedOrganizationSettingsFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}RestoreDeletedOrganizationSettingsARN
   RestoreDeletedOrganizationSettingsDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -1896,7 +1117,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}RestoreDeletedOrganizationSettingsARN
       ServiceRoleArn:
-        'Fn::GetAtt': RestoreDeletedOrganizationSettingsRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   RestoreDeletedOrganizationSettingsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1907,27 +1128,6 @@ Resources:
       DataSourceName:
         'Fn::GetAtt': RestoreDeletedOrganizationSettingsDataSource.Name
 
-  GetFacebookPagesRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetFacebookPagesFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetFacebookPagesARN
   GetFacebookPagesDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -1942,7 +1142,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetFacebookPagesARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetFacebookPagesRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetFacebookPagesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1953,27 +1153,6 @@ Resources:
       DataSourceName:
         'Fn::GetAtt': GetFacebookPagesDataSource.Name
 
-  CreateChannelRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: CreateChannelFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}CreateChannelARN
   CreateChannelDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -1988,7 +1167,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}CreateChannelARN
       ServiceRoleArn:
-        'Fn::GetAtt': CreateChannelRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   CreateChannelResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -2049,27 +1228,6 @@ Resources:
               "arguments": $util.toJson($context.source)
            }
         }
-  UpdateChannelRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: UpdateChannelFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}UpdateChannelARN
   UpdateChannelDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -2084,7 +1242,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}UpdateChannelARN
       ServiceRoleArn:
-        'Fn::GetAtt': UpdateChannelRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   UpdateChannelResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -2145,27 +1303,6 @@ Resources:
               "arguments": $util.toJson($context.source)
            }
         }
-  GetChannelRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetChannelFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetChannelARN
   GetChannelDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -2180,7 +1317,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetChannelARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetChannelRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetChannelResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -2207,27 +1344,6 @@ Resources:
               "arguments": $util.toJson($context.source)
            }
         }
-  GetChannelsRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetChannelsFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetChannelsARN
   GetChannelsDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -2242,7 +1358,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetChannelsARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetChannelsRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetChannelsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -2270,27 +1386,6 @@ Resources:
             }
         }
 
-  CreateOrganizationRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: CreateOrganizationFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}CreateOrganizationARN
   CreateOrganizationDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -2305,7 +1400,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}CreateOrganizationARN
       ServiceRoleArn:
-        'Fn::GetAtt': CreateOrganizationRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   CreateOrganizationResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -2315,27 +1410,6 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': CreateOrganizationDataSource.Name
-  CreateOrganizationDepartmentRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: CreateOrganizationDepartmentFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}CreateOrganizationDepartmentARN
   CreateOrganizationDepartmentDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -2350,7 +1424,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}CreateOrganizationDepartmentARN
       ServiceRoleArn:
-        'Fn::GetAtt': CreateOrganizationDepartmentRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   CreateOrganizationDepartmentResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -2360,27 +1434,6 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': CreateOrganizationDepartmentDataSource.Name
-  DeleteOrganizationsRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: DeleteOrganizationsFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}DeleteOrganizationsARN
   DeleteOrganizationsDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -2395,7 +1448,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}DeleteOrganizationsARN
       ServiceRoleArn:
-        'Fn::GetAtt': DeleteOrganizationsRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   DeleteOrganizationsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -2405,27 +1458,6 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': DeleteOrganizationsDataSource.Name
-  GetAllArchivedOrganizationDepartmentsRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetAllArchivedOrganizationDepartmentsFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetAllArchivedOrganizationDepartmentsARN
   GetAllArchivedOrganizationDepartmentsDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -2440,7 +1472,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetAllArchivedOrganizationDepartmentsARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetAllArchivedOrganizationDepartmentsRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetAllArchivedOrganizationDepartmentsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -2450,27 +1482,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetAllArchivedOrganizationDepartmentsDataSource.Name
-  GetAllOrganizationDepartmentsRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetAllOrganizationDepartmentsFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetAllOrganizationDepartmentsARN
   GetAllOrganizationDepartmentsDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -2485,7 +1496,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetAllOrganizationDepartmentsARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetAllOrganizationDepartmentsRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetAllOrganizationDepartmentsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -2495,27 +1506,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetAllOrganizationDepartmentsDataSource.Name
-  GetArchivedOrganizationDepartmentsByIdRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetArchivedOrganizationDepartmentsByIdFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetArchivedOrganizationDepartmentsByIdARN
   GetArchivedOrganizationDepartmentsByIdDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -2530,7 +1520,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetArchivedOrganizationDepartmentsByIdARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetArchivedOrganizationDepartmentsByIdRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetArchivedOrganizationDepartmentsByIdResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -2540,27 +1530,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetArchivedOrganizationDepartmentsByIdDataSource.Name
-  GetOrganizationByIdRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetOrganizationByIdFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetOrganizationByIdARN
   GetOrganizationByIdDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -2575,7 +1544,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetOrganizationByIdARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetOrganizationByIdRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetOrganizationByIdResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -2585,27 +1554,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetOrganizationByIdDataSource.Name
-  GetOrganizationDepartmentsByIdRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetOrganizationDepartmentsByIdFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetOrganizationDepartmentsByIdARN
   GetOrganizationDepartmentsByIdDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -2620,7 +1568,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetOrganizationDepartmentsByIdARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetOrganizationDepartmentsByIdRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetOrganizationDepartmentsByIdResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -2630,27 +1578,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetOrganizationDepartmentsByIdDataSource.Name
-  GetOrganizationsByIdsRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetOrganizationsByIdsFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetOrganizationsByIdsARN
   GetOrganizationsByIdsDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -2665,7 +1592,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetOrganizationsByIdsARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetOrganizationsByIdsRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetOrganizationsByIdsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -2675,27 +1602,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetOrganizationsByIdsDataSource.Name
-  RestoreDeletedOrganizationsRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: RestoreDeletedOrganizationsFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}RestoreDeletedOrganizationsARN
   RestoreDeletedOrganizationsDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -2710,7 +1616,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}RestoreDeletedOrganizationsARN
       ServiceRoleArn:
-        'Fn::GetAtt': RestoreDeletedOrganizationsRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   RestoreDeletedOrganizationsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -2720,27 +1626,6 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': RestoreDeletedOrganizationsDataSource.Name
-  UpdateOrganizationNameRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: UpdateOrganizationNameFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}UpdateOrganizationNameARN
   UpdateOrganizationNameDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -2755,7 +1640,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}UpdateOrganizationNameARN
       ServiceRoleArn:
-        'Fn::GetAtt': UpdateOrganizationNameRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   UpdateOrganizationNameResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -2766,27 +1651,6 @@ Resources:
       DataSourceName:
         'Fn::GetAtt': UpdateOrganizationNameDataSource.Name
 
-  CreateChannelTypeRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: CreateChannelTypeFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}CreateChannelTypeARN
   CreateChannelTypeDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -2801,7 +1665,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}CreateChannelTypeARN
       ServiceRoleArn:
-        'Fn::GetAtt': CreateChannelTypeRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   CreateChannelTypeResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -2811,27 +1675,6 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': CreateChannelTypeDataSource.Name
-  DeleteChannelTypesRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: DeleteChannelTypesFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}DeleteChannelTypesARN
   DeleteChannelTypesDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -2846,7 +1689,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}DeleteChannelTypesARN
       ServiceRoleArn:
-        'Fn::GetAtt': DeleteChannelTypesRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   DeleteChannelTypesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -2856,27 +1699,6 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': DeleteChannelTypesDataSource.Name
-  GetChannelTypesRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetChannelTypesFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetChannelTypesARN
   GetChannelTypesDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -2891,7 +1713,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetChannelTypesARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetChannelTypesRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetChannelTypesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -2901,27 +1723,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetChannelTypesDataSource.Name
-  GetArchivedChannelTypesRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetArchivedChannelTypesFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetArchivedChannelTypesARN
   GetArchivedChannelTypesDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -2936,7 +1737,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetArchivedChannelTypesARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetArchivedChannelTypesRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetArchivedChannelTypesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -2946,27 +1747,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetArchivedChannelTypesDataSource.Name
-  GetChannelTypeRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetChannelTypeFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetChannelTypeARN
   GetChannelTypeDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -2981,7 +1761,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetChannelTypeARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetChannelTypeRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetChannelTypeResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -2991,27 +1771,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetChannelTypeDataSource.Name
-  RestoreDeletedChannelTypesRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: RestoreDeletedChannelTypesFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}RestoreDeletedChannelTypesARN
   RestoreDeletedChannelTypesDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -3026,7 +1785,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}RestoreDeletedChannelTypesARN
       ServiceRoleArn:
-        'Fn::GetAtt': RestoreDeletedChannelTypesRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   RestoreDeletedChannelTypesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -3036,27 +1795,6 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': RestoreDeletedChannelTypesDataSource.Name
-  UpdateChannelTypeRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: UpdateChannelTypeFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}UpdateChannelTypeARN
   UpdateChannelTypeDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -3071,7 +1809,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}UpdateChannelTypeARN
       ServiceRoleArn:
-        'Fn::GetAtt': UpdateChannelTypeRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   UpdateChannelTypeResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -3082,27 +1820,6 @@ Resources:
       DataSourceName:
         'Fn::GetAtt': UpdateChannelTypeDataSource.Name
 
-  CreateChannelStatusRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: CreateChannelStatusFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}CreateChannelStatusARN
   CreateChannelStatusDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -3117,7 +1834,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}CreateChannelStatusARN
       ServiceRoleArn:
-        'Fn::GetAtt': CreateChannelStatusRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   CreateChannelStatusResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -3127,27 +1844,6 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': CreateChannelStatusDataSource.Name
-  DeleteChannelStatusesRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: DeleteChannelStatusesFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}DeleteChannelStatusesARN
   DeleteChannelStatusesDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -3162,7 +1858,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}DeleteChannelStatusesARN
       ServiceRoleArn:
-        'Fn::GetAtt': DeleteChannelStatusesRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   DeleteChannelStatusesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -3172,27 +1868,6 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': DeleteChannelStatusesDataSource.Name
-  GetChannelStatusesRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetChannelStatusesFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetChannelStatusesARN
   GetChannelStatusesDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -3207,7 +1882,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetChannelStatusesARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetChannelStatusesRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetChannelStatusesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -3217,27 +1892,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetChannelStatusesDataSource.Name
-  GetArchivedChannelStatusesRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetArchivedChannelStatusesFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetArchivedChannelStatusesARN
   GetArchivedChannelStatusesDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -3252,7 +1906,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetArchivedChannelStatusesARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetArchivedChannelStatusesRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetArchivedChannelStatusesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -3262,27 +1916,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetArchivedChannelStatusesDataSource.Name
-  GetChannelStatusRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: GetChannelStatusFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetChannelStatusARN
   GetChannelStatusDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -3297,7 +1930,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetChannelStatusARN
       ServiceRoleArn:
-        'Fn::GetAtt': GetChannelStatusRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   GetChannelStatusResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -3307,27 +1940,6 @@ Resources:
       TypeName: Query
       DataSourceName:
         'Fn::GetAtt': GetChannelStatusDataSource.Name
-  RestoreDeletedChannelStatusesRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: RestoreDeletedChannelStatusesFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}RestoreDeletedChannelStatusesARN
   RestoreDeletedChannelStatusesDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -3342,7 +1954,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}RestoreDeletedChannelStatusesARN
       ServiceRoleArn:
-        'Fn::GetAtt': RestoreDeletedChannelStatusesRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   RestoreDeletedChannelStatusesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -3352,27 +1964,6 @@ Resources:
       TypeName: Mutation
       DataSourceName:
         'Fn::GetAtt': RestoreDeletedChannelStatusesDataSource.Name
-  UpdateChannelStatusRole:
-    Type: 'AWS::IAM::Role'
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: appsync.amazonaws.com
-            Action: 'sts:AssumeRole'
-      Policies:
-        - PolicyName: UpdateChannelStatusFunctionAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action: 'lambda:InvokeFunction'
-                Resource:
-                  'Fn::ImportValue':
-                    'Fn::Sub': >-
-                      ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}UpdateChannelStatusARN
   UpdateChannelStatusDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -3387,7 +1978,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}UpdateChannelStatusARN
       ServiceRoleArn:
-        'Fn::GetAtt': UpdateChannelStatusRole.Arn
+        'Fn::GetAtt': CoreApiRole.Arn
   UpdateChannelStatusResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
