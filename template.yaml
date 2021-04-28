@@ -25,7 +25,7 @@ Conditions:
       - Ref: EnvironmentName
       - Prod
 Resources:
-  CoreApiRole:
+  SupportApiRole:
     Type: 'AWS::IAM::Role'
     Properties:
       AssumeRolePolicyDocument:
@@ -36,7 +36,7 @@ Resources:
               Service: appsync.amazonaws.com
             Action: 'sts:AssumeRole'
       Policies:
-        - PolicyName: CoreApiPolicy
+        - PolicyName: SupportApiPolicy
           PolicyDocument:
             Version: '2012-10-17'
             Statement:
@@ -58,7 +58,7 @@ Resources:
         - AuthenticationType: API_KEY
       LogConfig:
         CloudWatchLogsRoleArn:
-          'Fn::GetAtt': CoreApiRole.Arn
+          'Fn::GetAtt': SupportApiRole.Arn
         ExcludeVerboseContent: false
         FieldLogLevel:
           'Fn::If':
@@ -95,7 +95,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}CreateCountryARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   CreateCountryResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -119,7 +119,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}DeleteCountriesARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   DeleteCountriesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -143,7 +143,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetCountriesARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetCountriesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -167,7 +167,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetArchivedCountriesARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetArchivedCountriesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -191,7 +191,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetCountryARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetCountryResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -215,7 +215,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}RestoreDeletedCountriesARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   RestoreDeletedCountriesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -239,7 +239,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}UpdateCountryARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   UpdateCountryResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -264,7 +264,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}CreateCurrencyARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   CreateCurrencyResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -288,7 +288,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}DeleteCurrenciesARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   DeleteCurrenciesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -312,7 +312,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetCurrenciesARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetCurrenciesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -336,7 +336,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetArchivedCurrenciesARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetArchivedCurrenciesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -360,7 +360,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetCurrencyARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetCurrencyResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -384,7 +384,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}RestoreDeletedCurrenciesARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   RestoreDeletedCurrenciesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -408,7 +408,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}UpdateCurrencyARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   UpdateCurrencyResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -433,7 +433,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}CreateGenderARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   CreateGenderResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -457,7 +457,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}DeleteGendersARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   DeleteGendersResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -481,7 +481,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetGendersARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetGendersResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -505,7 +505,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetArchivedGendersARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetArchivedGendersResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -529,7 +529,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetGenderARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetGenderResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -553,7 +553,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}RestoreDeletedGendersARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   RestoreDeletedGendersResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -577,7 +577,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}UpdateGenderARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   UpdateGenderResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -602,7 +602,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}CreateLocationARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   CreateLocationResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -626,7 +626,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}DeleteLocationsARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   DeleteLocationsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -650,7 +650,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetLocationsARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetLocationsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -674,7 +674,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetArchivedLocationsARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetArchivedLocationsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -698,7 +698,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetCountryLocationsARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetCountryLocationsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -722,7 +722,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetLocationARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetLocationResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -746,7 +746,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}RestoreDeletedLocationsARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   RestoreDeletedLocationsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -770,7 +770,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}UpdateLocationARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   UpdateLocationResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -795,7 +795,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetTimezoneByIdARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetTimezoneByIdResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -819,7 +819,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetTimezonesARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetTimezonesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -843,7 +843,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}SearchTimezonesARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   SearchTimezonesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -868,7 +868,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}CreateOrganizationSettingsARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   CreateOrganizationSettingsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -943,7 +943,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}DeleteOrganizationSettingsARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   DeleteOrganizationSettingsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -967,7 +967,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetOrganizationSettingsARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetOrganizationSettingsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1042,7 +1042,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}UpdateOrganizationSettingsARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   UpdateOrganizationSettingsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1117,7 +1117,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}RestoreDeletedOrganizationSettingsARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   RestoreDeletedOrganizationSettingsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1142,7 +1142,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetFacebookPagesARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetFacebookPagesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1167,7 +1167,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}CreateChannelARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   CreateChannelResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1242,7 +1242,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}UpdateChannelARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   UpdateChannelResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1317,7 +1317,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetChannelARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetChannelResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1358,7 +1358,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetChannelsARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetChannelsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1400,7 +1400,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}CreateOrganizationARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   CreateOrganizationResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1424,7 +1424,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}CreateOrganizationDepartmentARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   CreateOrganizationDepartmentResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1448,7 +1448,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}DeleteOrganizationsARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   DeleteOrganizationsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1472,7 +1472,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetAllArchivedOrganizationDepartmentsARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetAllArchivedOrganizationDepartmentsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1496,7 +1496,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetAllOrganizationDepartmentsARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetAllOrganizationDepartmentsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1520,7 +1520,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetArchivedOrganizationDepartmentsByIdARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetArchivedOrganizationDepartmentsByIdResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1544,7 +1544,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetOrganizationByIdARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetOrganizationByIdResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1568,7 +1568,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetOrganizationDepartmentsByIdARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetOrganizationDepartmentsByIdResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1592,7 +1592,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}GetOrganizationsByIdsARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetOrganizationsByIdsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1616,7 +1616,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}RestoreDeletedOrganizationsARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   RestoreDeletedOrganizationsResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1640,7 +1640,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${SettingsServiceStackName}:${EnvironmentName}UpdateOrganizationNameARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   UpdateOrganizationNameResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1665,7 +1665,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}CreateChannelTypeARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   CreateChannelTypeResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1689,7 +1689,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}DeleteChannelTypesARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   DeleteChannelTypesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1713,7 +1713,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetChannelTypesARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetChannelTypesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1737,7 +1737,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetArchivedChannelTypesARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetArchivedChannelTypesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1761,7 +1761,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetChannelTypeARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetChannelTypeResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1785,7 +1785,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}RestoreDeletedChannelTypesARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   RestoreDeletedChannelTypesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1809,7 +1809,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}UpdateChannelTypeARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   UpdateChannelTypeResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1834,7 +1834,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}CreateChannelStatusARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   CreateChannelStatusResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1858,7 +1858,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}DeleteChannelStatusesARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   DeleteChannelStatusesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1882,7 +1882,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetChannelStatusesARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetChannelStatusesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1906,7 +1906,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetArchivedChannelStatusesARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetArchivedChannelStatusesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1930,7 +1930,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}GetChannelStatusARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   GetChannelStatusResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1954,7 +1954,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}RestoreDeletedChannelStatusesARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   RestoreDeletedChannelStatusesResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
@@ -1978,7 +1978,7 @@ Resources:
             'Fn::Sub': >-
               ${EnvironmentName}${ReferenceDataServiceStackName}:${EnvironmentName}UpdateChannelStatusARN
       ServiceRoleArn:
-        'Fn::GetAtt': CoreApiRole.Arn
+        'Fn::GetAtt': SupportApiRole.Arn
   UpdateChannelStatusResolver:
     Type: 'AWS::AppSync::Resolver'
     Properties:
