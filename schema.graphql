@@ -337,16 +337,16 @@ type Mutation {
     # Восстановить одну/несколько страну(ан).
     restoreDeletedCountries(input: RestoreDeletedCountriesInput!): RestoreDeletedCountriesOutput
         @aws_api_key
-    # Создать настройки компании
+    # Создать настройки компании.
     createOrganizationSettings(input: CreateOrganizationSettingsInput!): CreateOrganizationSettingsOutput
         @aws_api_key
-    # Обновить настройки компании
+    # Обновить настройки компании.
     updateOrganizationSettings(input: UpdateOrganizationSettingsInput!): UpdateOrganizationSettingsOutput
         @aws_api_key
-    # Удалить настройки компании
+    # Удалить настройки компании.
     deleteOrganizationSettings(organizationId: String!): DeleteOrganizationSettingsOutput
         @aws_api_key
-    # Восстановить настройки компании
+    # Восстановить настройки компании.
     restoreDeletedOrganizationSettings(organizationId: String!): RestoreDeletedOrganizationSettingsOutput
         @aws_api_key
     # Создать канал.
@@ -379,7 +379,7 @@ type Mutation {
     # Удалить один/несколько тип(ов) канала.
     deleteChannelTypes(input: DeleteChannelTypesInput!): DeleteChannelTypesOutput
         @aws_api_key
-    # Восстановить однин/несколько тип(ов) канала.
+    # Восстановить один/несколько тип(ов) канала.
     restoreDeletedChannelTypes(input: RestoreDeletedChannelTypesInput!): RestoreDeletedChannelTypesOutput
         @aws_api_key
     # Создать новый статус канала.
@@ -571,7 +571,7 @@ type GetChannelsOutput @aws_api_key {
 }
 
 type Query {
-    # Получить временную зону по id. Включает в себя архивированные временые зоны.
+    # Получить временную зону по id. Включает в себя архивированные временные зоны.
     getTimezoneById(timezoneId: String!): GetTimezoneByIdOutput
         @aws_api_key
     # Получить список часовых поясов зон страны.
@@ -610,7 +610,7 @@ type Query {
     # Получить список архивированных локаций.
     getArchivedLocations(itemsCountPerPage: Int!, currentPageNumber: Int!): GetArchivedLocationsOutput
         @aws_api_key
-    # Получиить список архивированных полов.
+    # Получить список архивированных полов.
     getArchivedGenders(itemsCountPerPage: Int!, currentPageNumber: Int!): GetArchivedGendersOutput
         @aws_api_key
     # Получить список архивированных валют.
@@ -619,7 +619,7 @@ type Query {
     # Получить список архивированных стран.
     getArchivedCountries(itemsCountPerPage: Int!, currentPageNumber: Int!): GetArchivedCountriesOutput
         @aws_api_key
-    # Получить настройки компании по Id. Включает в себя архивированные компании.
+    # Получить настройки компании по id. Включает в себя архивированные компании.
     getOrganizationSettingsById(organizationId: String!): GetOrganizationSettingsByIdOutput
         @aws_api_key
     # Получить список Facebook страниц, которыми владеет пользователь.
@@ -631,16 +631,16 @@ type Query {
     # Получить список всех отделов основной организации.
     getAllOrganizationDepartments(rootOrganizationId: String!): [OrganizationOutput]
         @aws_api_key
-    # Полуить список архивированных отделов определенной организации.
+    # Получить список архивированных отделов определенной организации.
     getArchivedOrganizationDepartmentsById(parentOrganizationId: String!): [OrganizationOutput]
         @aws_api_key
-    # Получить организацию по Id.
+    # Получить организацию по id.
     getOrganizationById(organizationId: String!): OrganizationOutput
         @aws_api_key
     # Получить список отделов определенной организации.
     getOrganizationDepartmentsById(parentOrganizationId: String!): [OrganizationOutput]
         @aws_api_key
-    # Полуить список организаций по ids.
+    # Получить список организаций по ids.
     getOrganizationsByIds(organizationsIds: [String!]!): [OrganizationOutput]
         @aws_api_key
     # Получить канал по id.
