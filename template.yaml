@@ -1344,6 +1344,40 @@ Resources:
               "arguments": $util.toJson($context.source)
            }
         }
+  GetChannelChannelTypeResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: channelType
+      TypeName: ChannelTypeOutput
+      DataSourceName:
+        'Fn::GetAtt': GetChannelTypeDataSource.Name
+      RequestMappingTemplate: |
+        {
+           "version": "2017-02-28",
+           "operation": "Invoke",
+           "payload": {
+              "arguments": $util.toJson($context.source)
+           }
+        }
+  GetChannelChannelStatusResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: channelStatus
+      TypeName: ChannelStatusOutput
+      DataSourceName:
+        'Fn::GetAtt': GetChannelStatusDataSource.Name
+      RequestMappingTemplate: |
+        {
+           "version": "2017-02-28",
+           "operation": "Invoke",
+           "payload": {
+              "arguments": $util.toJson($context.source)
+           }
+        }
   GetChannelsDataSource:
     Type: 'AWS::AppSync::DataSource'
     Properties:
@@ -1377,6 +1411,40 @@ Resources:
       TypeName: GetChannelsOutput
       DataSourceName:
         'Fn::GetAtt': GetOrganizationsByIdsDataSource.Name
+      RequestMappingTemplate: |
+        {
+           "version": "2017-02-28",
+           "operation": "Invoke",
+           "payload": {
+              "arguments": $util.toJson($context.source)
+            }
+        }
+  GetChannelsChannelTypeResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: channelType
+      TypeName: ChannelTypeOutput
+      DataSourceName:
+        'Fn::GetAtt': GetChannelTypeDataSource.Name
+      RequestMappingTemplate: |
+        {
+           "version": "2017-02-28",
+           "operation": "Invoke",
+           "payload": {
+              "arguments": $util.toJson($context.source)
+            }
+        }
+  GetChannelsChannelStatusResolver:
+    Type: 'AWS::AppSync::Resolver'
+    Properties:
+      ApiId:
+        'Fn::GetAtt': GraphQLApi.ApiId
+      FieldName: channelStatus
+      TypeName: ChannelStatusOutput
+      DataSourceName:
+        'Fn::GetAtt': GetChannelStatusDataSource.Name
       RequestMappingTemplate: |
         {
            "version": "2017-02-28",
