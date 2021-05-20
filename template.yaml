@@ -1350,7 +1350,7 @@ Resources:
       ApiId:
         'Fn::GetAtt': GraphQLApi.ApiId
       FieldName: channelType
-      TypeName: ChannelTypeOutput
+      TypeName: GetChannelOutput
       DataSourceName:
         'Fn::GetAtt': GetChannelTypeDataSource.Name
       RequestMappingTemplate: |
@@ -1367,7 +1367,7 @@ Resources:
       ApiId:
         'Fn::GetAtt': GraphQLApi.ApiId
       FieldName: channelStatus
-      TypeName: ChannelStatusOutput
+      TypeName: GetChannelOutput
       DataSourceName:
         'Fn::GetAtt': GetChannelStatusDataSource.Name
       RequestMappingTemplate: |
@@ -1425,7 +1425,7 @@ Resources:
       ApiId:
         'Fn::GetAtt': GraphQLApi.ApiId
       FieldName: channelType
-      TypeName: ChannelTypeOutput
+      TypeName: GetChannelsOutput
       DataSourceName:
         'Fn::GetAtt': GetChannelTypeDataSource.Name
       RequestMappingTemplate: |
@@ -1442,7 +1442,7 @@ Resources:
       ApiId:
         'Fn::GetAtt': GraphQLApi.ApiId
       FieldName: channelStatus
-      TypeName: ChannelStatusOutput
+      TypeName: GetChannelsOutput
       DataSourceName:
         'Fn::GetAtt': GetChannelStatusDataSource.Name
       RequestMappingTemplate: |
